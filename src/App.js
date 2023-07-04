@@ -24,6 +24,12 @@ function App() {
           path="/"
           element={isLoggedIn ? <Home /> : <SignInPage/>}
         />
+          <Route
+          exact
+          path="/home"
+          element={<Home/>}
+        />
+        
         
         
       </Routes>

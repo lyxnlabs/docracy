@@ -1,0 +1,79 @@
+.home {
+    height: 100vh;
+    width: 90vh;
+    overflow: hidden; /* Add this to hide scrollbars */
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+    padding: 30px;
+    margin:10px;
+  }
+
+  
+  
+  .title {
+    margin: 0;
+  }
+  
+  .search {
+    background-color: #e0e0e0;
+    padding: 10px;
+  }
+  
+  .sidebar {
+    background-color: #f0f0f0;
+    padding: 10px;
+    height: 100%;
+    margin: 10px;
+    width: 15vw; /* Adjust the width as needed */
+    overflow: auto; /* Add this to enable scrolling if sidebar content overflows */
+  }
+  .title {
+    font-size: 32px; /* Default font size for larger screens */
+  }
+  .campaign-title{
+    font-size: 32px; /* Font size for smaller screens */
+  }
+  
+  @media (max-width: 600px) {
+    .title {
+      font-size: 24px; /* Font size for smaller screens */
+    }
+    .campaign-title{
+      font-size: 24px; /* Font size for smaller screens */
+    }
+  }
+  
+  .content {
+    width: 85vw; /* Adjust the width to leave space for the sidebar */
+    background-color: #ffffff;
+    margin: 10px;
+    padding: 10px;
+    height: calc(100vh - 64px); /* Adjust the height to leave space for header */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: auto; /* Add this to enable scrolling if content overflows */
+  }
+  
+  .box {
+    background-color: #f0f0f0;
+    padding: 10px;
+
+  
+    height: 10vw;
+  }
+
+  .boxes {
+    display:flex;
+flex-wrap:flex;
+width:100%;
+position:relative;
+padding:10px;
+  }
+  
