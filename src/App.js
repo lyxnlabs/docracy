@@ -1,14 +1,29 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
-import Home from './components/Home';
-import SignInPage from './components/SigninPage';
+import SignInPage from "./components/SigninPage";
+import { UserContext } from "./contexts/UserContext";
+import Home from "./components/Home";
 function App() {
+  const { isLoggedIn } = useContext(UserContext);
   return (
     <Router>
       <Routes>
-      <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<SignInPage/>} />
+        <Route
+          exact
+          path="/login"
+          element={isLoggedIn ? <Home /> : <SignInPage/> }
+        />
+        <Route
+          exact
+          path="/"
+          element={isLoggedIn ? <Home /> : <SignInPage/>}
+        />
+        
       </Routes>
     </Router>
   );
