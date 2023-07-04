@@ -101,6 +101,7 @@ const SignInPage = () => {
           padding: "0 20px", // Add some horizontal padding for smaller screens
         }}
         onSubmit={handleSubmit} // Call the handleSubmit function when the form is submitted
+        InputLabelProps={{ style: { color: 'black' } }}
       >
         <Typography
           variant="h6"
@@ -112,21 +113,22 @@ const SignInPage = () => {
           Email Address
         </Typography>
         <TextField
-          sx={{
-            height: 50,
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "grey",
-              },
-              "&:hover fieldset": {
-                borderColor: "black",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "black",
-              },
+           sx={{ height: 50,'& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'grey',
+            
             },
-            marginBottom: "15px",
-          }}
+            '&:hover fieldset': {
+              borderColor: 'black',
+              
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'black',
+             
+            },
+          
+           
+          }, }}
           label="Email address"
           variant="outlined"
           margin="normal"
@@ -136,6 +138,7 @@ const SignInPage = () => {
           onChange={handleChange}
           error={emailError}
           helperText={emailError && "Please enter a valid email address"}
+          InputLabelProps={{ style: { color: 'black' } }}
         />
 
         <Typography
@@ -146,21 +149,22 @@ const SignInPage = () => {
           Password
         </Typography>
         <TextField
-          sx={{
-            height: 50,
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "grey",
-              },
-              "&:hover fieldset": {
-                borderColor: "black",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "black",
-              },
+          sx={{ height: 50,'& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'grey',
+            
             },
-            marginBottom: "15px",
-          }}
+            '&:hover fieldset': {
+              borderColor: 'black',
+              
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'black',
+             
+            },
+          
+           
+          }, }}
           label="Password"
           type="password"
           variant="outlined"
@@ -170,6 +174,7 @@ const SignInPage = () => {
           error={passwordError}
           helperText={passwordError && "Invalid password format"}
           onChange={handleChange} // Call the handleChange function when the input changes
+          InputLabelProps={{ style: { color: 'black' } }}
         />
         <Typography sx={{ mt: 3, color: "gray" }}>
           Your password is your date of birth in (DD-MM-YYYY) format

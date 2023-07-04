@@ -8,6 +8,7 @@ import {
 import SignInPage from "./components/SigninPage";
 import { UserContext } from "./contexts/UserContext";
 import Home from "./components/Home";
+
 function App() {
   const { isLoggedIn } = useContext(UserContext);
   return (
@@ -23,6 +24,7 @@ function App() {
           path="/"
           element={isLoggedIn ? <Home /> : <SignInPage/>}
         />
+        
         
       </Routes>
     </Router>
