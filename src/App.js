@@ -8,10 +8,16 @@ import {
 import SignInPage from "./components/SigninPage";
 import { UserContext } from "./contexts/UserContext";
 import Home from "./components/Home";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+// Define your theme
+const theme = createTheme({
+  // Add your theme configuration here
+});
 function App() {
   const { isLoggedIn } = useContext(UserContext);
   return (
+    <ThemeProvider theme={theme}>
     <Router>
       <Routes>
         <Route
@@ -24,16 +30,19 @@ function App() {
           path="/"
           element={isLoggedIn ? <Home /> : <SignInPage/>}
         />
+         
           <Route
           exact
           path="/home"
           element={<Home/>}
         />
+       
         
         
         
       </Routes>
     </Router>
+    </ThemeProvider>
   );
 }
 
