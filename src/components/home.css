@@ -29,7 +29,7 @@
     font-size: 32px; /* Default font size for larger screens */
   }
   .campaign-title{
-    font-size: 32px; /* Font size for smaller screens */
+    font-size: 20px; /* Font size for smaller screens */
   }
   
   @media (max-width: 600px) {
