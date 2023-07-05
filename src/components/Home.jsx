@@ -5,6 +5,8 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './home.css';
 import { useState } from 'react';
 import icon1 from "../assets/img/trend.png";
+import logouticon from "../assets/img/log-out.png";
+import pollingicon from "../assets/img/polling.png";
 const Icon1 = () => <img src={icon1} alt="Icon 1" />;
 
 const Home = () => {
@@ -47,7 +49,7 @@ const Home = () => {
   const isSmallDevice = useMediaQuery((theme) => theme.breakpoints.down('sm'));
 
   return (
-    <Grid container spacing={0} className="home" sx={{ backgroundColor: ' #f2f2f2', height: '100%' }}>
+    <Grid container spacing={0} className="home" sx={{  height: '100%' }}>
       <Grid item xs={isSmallDevice ? 12 : 2} sm={2}>
         <Paper elevation={2} className="sidebar styles" sx={{ boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.2)', borderRadius: '5px', padding: '10px', display: 'flex', flexDirection: 'column' }}>
           {isSmallDevice && (
@@ -58,27 +60,31 @@ const Home = () => {
                 </IconButton>
               </Grid>
               <Grid item xs={10} marginBottom={-4}>
-                <Typography variant="h6">Docracy</Typography>
+                <Typography variant="h4">Docracy</Typography>
               </Grid>
             </Grid>
           )}
           {!isSmallDevice && (
             <List sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
               <ListItem button>
+              <img src={pollingicon} className="box-icon" height="30vw" style={{marginRight:"30px"}}/>
                 <ListItemText primary="Polling" />
               </ListItem>
               <ListItem button>
+              <img src={logouticon} className="box-icon" height="30vw" style={{marginRight:"30px"}}/>
                 <ListItemText primary="Logout" />
               </ListItem>
             </List>
           )}
-          <Drawer anchor="left" open={sidebarOpen} onClose={handleSidebarClose}>
-            <List sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+          <Drawer anchor="left" open={sidebarOpen} onClose={handleSidebarClose} sx={{backgroundColor:'#f2f2f2'}}>
+            <List sx={{ textAlign: 'center', display: 'flex', flexDirection: 'column',backgroundColor:'#f2f2f2', height:'100%' }}>
               <ListItem button>
-                <ListItemText primary="Polling" />
+              <img src={pollingicon} className="box-icon" height="30vw" style={{marginRight:"30px"}}/>
+                <ListItemText primary="Polling" style={{marginRight:"30px"}}/>
               </ListItem>
               <ListItem button>
-                <ListItemText primary="Logout" />
+              <img src={logouticon} className="box-icon" height="30vw" style={{marginRight:"30px"}}/>
+                <ListItemText primary="Logout" style={{marginRight:"30px"}}/>
               </ListItem>
             </List>
           </Drawer>
@@ -92,6 +98,7 @@ const Home = () => {
             display: 'flex',
             flexDirection: isSmallDevice ? 'column' : 'row',
             alignItems: isSmallDevice ? 'center' : 'flex-start',
+            marginTop: isSmallDevice ? '10px' : '0px',
             justifyContent: 'space-between',
             backgroundColor: '#ffffff',
             boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.2)',
@@ -100,12 +107,12 @@ const Home = () => {
             margin: '10px',
           }}
         >
-          <div style={{ marginBottom: isSmallDevice ? '10px' : 0 }}>
+          <div style={{ marginBottom: isSmallDevice ? '30px' : 0 }}>
             {!isSmallDevice && (
               <Grid container spacing={1} justifyContent="flex-start" alignItems="center">
                
                 <Grid item>
-                  <Typography variant="h6">Docracy</Typography>
+                  <Typography variant="h4" sx={{marginLeft:2, fontStyle:'bold'}}>Docracy</Typography>
                 </Grid>
               </Grid>
             )}
@@ -125,22 +132,7 @@ const Home = () => {
             </Avatar>
           </div>
         </Paper>
-        <Paper
-          elevation={2}
-          className="content"
-          sx={{
-            height: '88%',
-            boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.2)',
-            borderRadius: '5px',
-            margin: '10px',
-            padding: '10px',
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            overflow: 'auto',
-          }}
-        >
+       
           <Grid container spacing={3}>
             <Grid item xs={12}>
             <Grid container spacing={3} className="boxes">
@@ -150,11 +142,11 @@ const Home = () => {
         elevation={2}
         className="box"
         sx={{
-          boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.2)',
+         
           borderRadius: '5px',
           padding: '10px',
           backgroundColor: '#f2f2f2',
-          height: '10vw',
+         
         }}
       >
       
@@ -169,11 +161,11 @@ const Home = () => {
 </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h5" gutterBottom marginBottom={-2} marginLeft={2}>
+              <Typography variant="h5" gutterBottom marginBottom={-3} marginLeft={5} marginTop={1}>
                 <b>Open Campaigns</b>
               </Typography>
             </Grid>
-            <Grid item xs={12} className="carousel">
+            <Grid item xs={12} className="carousel" >
               <Carousel
                 selectedItem={currentSlide}
                 onChange={handleSlideChange}
@@ -182,6 +174,7 @@ const Home = () => {
                 emulateTouch={true}
                 showThumbs={false}
                 centerMode={isSmallDevice ? false : true}
+               
                 centerSlidePercentage={isSmallDevice ? 100 : 33.33}
                 renderArrowPrev={(onClickHandler, hasPrev, label) =>
                   hasPrev && (
@@ -215,11 +208,11 @@ const Home = () => {
                     key={index}
                     className="campaign-box"
                     style={{
-                      boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.2)',
+                     
                       borderRadius: '10px',
                       backgroundColor: '#f2f2f2',
                       margin: '30px',
-                      height: '250px',
+                      height: '340px',
                       padding:'10px'
                     }}
                   >
@@ -230,7 +223,7 @@ const Home = () => {
               </Carousel>
             </Grid>
           </Grid>
-        </Paper>
+      
       </Grid>
     </Grid>
   );
