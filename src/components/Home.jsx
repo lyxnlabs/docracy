@@ -36,6 +36,50 @@ import { HiOutlineLogout } from "react-icons/hi";
 import VoteDialogDispatcher from "./VoteDialogDispatcher";
 
 const Home = () => {
+  const [userData, setData] = useState([]);
+
+  useEffect(() => {
+    // Retrieve the token from local storage or state
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      // Verify the token on subsequent logins
+      fetch("https://kisargo.ml/api/verify-token", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          if (!response.ok) {
+            // Token is invalid or expired
+            localStorage.removeItem("token");
+            window.location.href = "/";
+          } else {
+            console.log("Token is valid");
+            // Fetch protected data
+            fetch("https://kisargo.ml/api/user-data", {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                setData(data);
+              })
+              .catch((error) => {
+                console.error("Failed to fetch protected data:", error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.error("Token verification failed:", error);
+        });
+    } else {
+      window.location.href = "/";
+    }
+  }, []);
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentActionID, setCurrentActionID] = useState(0);
@@ -69,6 +113,7 @@ const Home = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     window.location.href = "/";
   };
 
@@ -349,7 +394,7 @@ const Home = () => {
                   backgroundColor: "#1a1a1a",
                 }}
               >
-                P
+                {userData?.first_name?.charAt(0).toUpperCase()}
               </Avatar>
             </Button>
             <Popover
@@ -372,7 +417,16 @@ const Home = () => {
                 >
                   <WavingHandIcon />
                 </span>
-                <span style={{ verticalAlign: "middle" }}>Hey, John Doe</span>
+                <span style={{ verticalAlign: "middle" }}>
+                  Hey,{" "}
+                  {`${userData?.first_name
+                    ?.charAt(0)
+                    .toUpperCase()}${userData?.first_name?.slice(
+                    1
+                  )} ${userData?.last_name
+                    ?.charAt(0)
+                    .toUpperCase()}${userData?.last_name?.slice(1)}`}
+                </span>
               </Typography>
               <Typography
                 sx={{ p: 2, cursor: "pointer" }}

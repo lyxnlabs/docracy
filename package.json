@@ -17,6 +17,8 @@
     "react-icons": "^4.10.1",
     "react-responsive-carousel": "^3.2.23",
     "react-scripts": "5.0.1",
+    "sweetalert2": "^11.7.12",
+    "sweetalert2-react-content": "^5.0.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

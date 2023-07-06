@@ -1,12 +1,43 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Alert, Backdrop, CircularProgress } from "@mui/material";
 import { UserContext } from "../contexts/UserContext";
 
 const SignInPage = () => {
+  useEffect(() => {
+    // Retrieve the token from local storage or state
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      // Verify the token on subsequent logins
+      fetch('https://kisargo.ml/api/verify-token', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          if (response.ok) {
+            window.location.href="/home";
+          }
+          else {
+            console.log("Token is invalid");
+            // Token is invalid or expired
+            localStorage.removeItem('token');
+            
+          } 
+        })
+        .catch((error) => {
+          console.error('Token verification failed:', error);
+        });
+    }
+    
+  }, []);
+  
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,6 +48,10 @@ const SignInPage = () => {
   const [passwordError, setPasswordError] = useState(false);
 
   const [openBackdrop, setOpenBackdrop] = useState(false);
+
+  const [openWrongAlert, setWrongAlert] = useState(false);
+
+  const [openOTPForm, setOpenOTPForm] = useState(false);
 
   const handleCloseBackdrop = () => {
     setOpenBackdrop(false);
@@ -35,7 +70,7 @@ const SignInPage = () => {
     setPasswordError(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isValidEmail(formData.email)) {
       setEmailError(true);
@@ -47,17 +82,30 @@ const SignInPage = () => {
     setEmailError(false);
     setPasswordError(false);
     setOpenBackdrop(true);
-    if (
-      formData.email === "mfaisal.pla@gmail.com" &&
-      formData.password === "04-12-2001"
-    ) {
-      console.log("true");
-      login();
-    } else {
-      console.log("false");
-      logout();
+    // Send login request to the server
+    const response = await fetch("https://kisargo.ml/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
+    console.log(response);
+    const { token } = await response.json();
+    console.log(token);
+    localStorage.setItem("token", token);
+    if (response.ok) {
+      window.location.href = "/home";
+      setOpenBackdrop(false);
+      setWrongAlert(false);
+    } 
+    if(response.status === 401 || response.status === 500) {
+      setWrongAlert(true);
+      setOpenBackdrop(false);
     }
-    console.log(formData);
   };
 
   const isValidEmail = (email) => {
@@ -101,8 +149,13 @@ const SignInPage = () => {
           padding: "0 20px", // Add some horizontal padding for smaller screens
         }}
         onSubmit={handleSubmit} // Call the handleSubmit function when the form is submitted
-        InputLabelProps={{ style: { color: 'black' } }}
+        InputLabelProps={{ style: { color: "black" } }}
       >
+        {openWrongAlert && 
+          <Alert severity="error" sx={{mb:2}}>
+            Email and password combination is wrong
+          </Alert>
+        }
         <Typography
           variant="h6"
           fontWeight="bold"
@@ -113,22 +166,20 @@ const SignInPage = () => {
           Email Address
         </Typography>
         <TextField
-           sx={{ height: 50,'& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: 'grey',
-            
+          sx={{
+            height: 50,
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "grey",
+              },
+              "&:hover fieldset": {
+                borderColor: "black",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "black",
+              },
             },
-            '&:hover fieldset': {
-              borderColor: 'black',
-              
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: 'black',
-             
-            },
-          
-           
-          }, }}
+          }}
           label="Email address"
           variant="outlined"
           margin="normal"
@@ -138,7 +189,7 @@ const SignInPage = () => {
           onChange={handleChange}
           error={emailError}
           helperText={emailError && "Please enter a valid email address"}
-          InputLabelProps={{ style: { color: 'black' } }}
+          InputLabelProps={{ style: { color: "black" } }}
         />
 
         <Typography
@@ -149,22 +200,20 @@ const SignInPage = () => {
           Password
         </Typography>
         <TextField
-          sx={{ height: 50,'& .MuiOutlinedInput-root': {
-            '& fieldset': {
-              borderColor: 'grey',
-            
+          sx={{
+            height: 50,
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "grey",
+              },
+              "&:hover fieldset": {
+                borderColor: "black",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "black",
+              },
             },
-            '&:hover fieldset': {
-              borderColor: 'black',
-              
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: 'black',
-             
-            },
-          
-           
-          }, }}
+          }}
           label="Password"
           type="password"
           variant="outlined"
@@ -174,7 +223,7 @@ const SignInPage = () => {
           error={passwordError}
           helperText={passwordError && "Invalid password format"}
           onChange={handleChange} // Call the handleChange function when the input changes
-          InputLabelProps={{ style: { color: 'black' } }}
+          InputLabelProps={{ style: { color: "black" } }}
         />
         <Typography sx={{ mt: 3, color: "gray" }}>
           Your password is your date of birth in (DD-MM-YYYY) format
