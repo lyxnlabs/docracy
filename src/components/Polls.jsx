@@ -43,6 +43,8 @@ const candidates = [
   { id: 9, name: "Candidate 9", image: avatar9, postId: 4 },
   { id: 10, name: "Candidate 10", image: avatar8, postId: 5 },
   { id: 11, name: "Candidate 11", image: avatar9, postId: 5 },
+  { id: 12, name: "Candidate 12", image: avatar8, postId: 5 },
+  { id: 13, name: "Candidate 13", image: avatar9, postId: 5 },
   // ... add more candidates
 ];
 
@@ -55,17 +57,7 @@ const Polls = () => {
 
   const handleCandidateClick = (candidate, candidate_id, post_id) => {
     setSelectedCandidate(candidate);
-    let index = casts.findIndex(function (item) {
-      return item.post_id === post_id;
-    });
-    if (index !== -1) {
-      // If post_id exists, replace the old item with the new one
-      casts[index] = { post_id: post_id, candidate_id: candidate_id };
-    } else {
-      // If post_id doesn't exist, add the new item to the casts array
-      casts.push({ post_id: post_id, candidate_id: candidate_id });
-    }
-    console.log(casts);
+    setCasts([...casts, { post_id: post_id, candidate_id: candidate_id }]);
   };
   const cardRef = useRef(null); // Ref for the Card component
 
@@ -131,7 +123,7 @@ const Polls = () => {
                 sx={{
                   cursor: "pointer",
                   backgroundColor:
-                    casts[currentPostIndex]?.candidate_id === candidate.id
+                    selectedCandidate?.id === candidate.id
                       ? "#e0e0e0"
                       : "white",
                   opacity: showCard ? 1 : 0,
