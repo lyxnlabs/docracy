@@ -12,6 +12,9 @@ import {
   ListItemText,
   Button,
 } from "@mui/material";
+
+
+
 import React, { useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { ChevronLeft, ChevronRight, Search, Menu } from "@mui/icons-material";
@@ -48,8 +51,12 @@ const Home = () => {
   const handleSidebarClose = () => {
     setSidebarOpen(false);
   };
+ 
 
-
+  const handleLogout = () => {
+    window.location.href = 'http://localhost:3000/';
+  };
+  
 
   const campaignData = [
     {
@@ -177,32 +184,39 @@ const Home = () => {
             </Grid>
           )}
           {!isSmallDevice && (
-            <List
-              sx={{
-                textAlign: "center",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <ListItem button>
-                <img
-                  src={pollingicon}
-                  className="box-icon"
-                  height="30vw"
-                  style={{ marginRight: "30px" }}
-                />
-                <ListItemText primary="Polling" />
-              </ListItem>
-              <ListItem button>
-                <img
-                  src={logouticon}
-                  className="box-icon"
-                  height="30vw"
-                  style={{ marginRight: "30px" }}
-                />
-                <ListItemText primary="Logout" />
-              </ListItem>
-            </List>
+             <List
+             sx={{
+               textAlign: "center",
+               display: "flex",
+               flexDirection: "column",
+               backgroundColor: "#f2f2f2",
+               height: "100%",
+             }}
+           >
+             <ListItem button>
+               <img
+                 src={pollingicon}
+                 className="box-icon"
+                 height="30vw"
+                 style={{ marginRight: "30px" }}
+               />
+               <ListItemText
+                 primary="Polling"
+                 style={{ marginRight: "30px" }}
+               />
+             </ListItem>
+             
+              
+               <ListItem button onClick={handleLogout}>
+ <img
+   src={logouticon}
+   className="box-icon"
+   height="30vw"
+   style={{ marginRight: "30px" }}
+ />
+ <ListItemText primary="Logout" style={{ marginRight: "30px" }} />
+</ListItem>
+           </List>
           )}
           <Drawer
             anchor="left"
@@ -231,18 +245,17 @@ const Home = () => {
                   style={{ marginRight: "30px" }}
                 />
               </ListItem>
-              <ListItem button>
-                <img
-                  src={logouticon}
-                  className="box-icon"
-                  height="30vw"
-                  style={{ marginRight: "30px" }}
-                />
-                <ListItemText
-                  primary="Logout"
-                  style={{ marginRight: "30px" }}
-                />
-              </ListItem>
+              
+               
+                <ListItem button onClick={handleLogout}>
+  <img
+    src={logouticon}
+    className="box-icon"
+    height="30vw"
+    style={{ marginRight: "30px" }}
+  />
+  <ListItemText primary="Logout" style={{ marginRight: "30px" }} />
+</ListItem>
             </List>
           </Drawer>
         </Paper>
