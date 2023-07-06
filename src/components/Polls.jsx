@@ -41,11 +41,10 @@ const candidates = [
   { id: 9, name: "Candidate 9", image: avatar9, postId: 3 },
   { id: 10, name: "Candidate 10", image: avatar8, postId: 4 },
   { id: 11, name: "Candidate 11", image: avatar9, postId: 4 },
+  { id: 12, name: "Candidate 12", image: avatar8, postId: 5 },
+  { id: 13, name: "Candidate 13", image: avatar9, postId: 5 },
   // ... add more candidates
 ];
-
-
-
 
 const Polls = () => {
   const [selectedCandidate, setSelectedCandidate] = useState(null);
@@ -56,7 +55,12 @@ const Polls = () => {
 
   const handleCandidateClick = (candidate, candidate_id, post_id) => {
     setSelectedCandidate(candidate);
-    setCasts([...casts, { post_id: post_id, candidate_id: candidate_id }]);
+    setCasts((prevCasts) => {
+      const updatedCasts = prevCasts.filter(
+        (cast) => cast.post_id !== post_id
+      );
+      return [...updatedCasts, { post_id, candidate_id }];
+    });
   };
   const cardRef = useRef(null); // Ref for the Card component
 
@@ -122,9 +126,13 @@ const Polls = () => {
                 sx={{
                   cursor: "pointer",
                   backgroundColor:
-                    selectedCandidate?.id === candidate.id
-                      ? "#e0e0e0"
-                      : "white",
+                  Array.from(casts).some(
+                    ({ post_id, candidate_id }) =>
+                      post_id === posts[currentPostIndex].id &&
+                      candidate_id === candidate.id
+                  )
+                    ? "#02ad80"
+                    : "white",
                   opacity: showCard ? 1 : 0,
                   transition: "opacity 0.3s",
                   border: "1px dotted black",
