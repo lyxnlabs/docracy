@@ -11,12 +11,11 @@ import {
   ListItem,
   ListItemText,
   Button,
+  Popover,
 } from "@mui/material";
 
-
-
-import React, { useContext } from 'react';
-import { UserContext } from '../contexts/UserContext';
+import React, { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 import { ChevronLeft, ChevronRight, Search, Menu } from "@mui/icons-material";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -27,19 +26,36 @@ import icon2 from "../assets/img/instructions.png";
 import icon3 from "../assets/img/conversation.png";
 import icon4 from "../assets/img/phone-call.png";
 import { SiAsciidoctor } from "react-icons/si";
+import WavingHandIcon from "@mui/icons-material/WavingHand";
 
 import logouticon from "../assets/img/log-out.png";
 import pollingicon from "../assets/img/polling.png";
+import { FaPoll } from "react-icons/fa";
+import { HiOutlineLogout } from "react-icons/hi";
+
 import VoteDialogDispatcher from "./VoteDialogDispatcher";
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentActionID, setCurrentActionID] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "profile-dropdown" : undefined;
   let [dispatchCount, setDispatchCount] = useState(0);
   useEffect(() => {
     console.log(dispatchCount);
   }, [dispatchCount]);
+
   const handleSlideChange = (index) => {
     setCurrentSlide(index);
   };
@@ -51,60 +67,66 @@ const Home = () => {
   const handleSidebarClose = () => {
     setSidebarOpen(false);
   };
- 
 
   const handleLogout = () => {
-    window.location.href = '/';
+    window.location.href = "/";
   };
-  
 
   const campaignData = [
     {
       title: "Chairperson",
       description: "Positions avaiable : 1",
-      background: "#ddefe0",
+      background: "#8f898f",
+      color: "#fff",
       candidate: "Total candidates : 6",
     },
     {
       title: "Vice Chairperson",
       description: "Positions avaiable : 1",
-      background: "#f4eddc",
+      background: "#8f898f",
+      color: "#fff",
       candidate: "Total candidates : 4",
     },
     {
       title: "Hon. Secretary",
       description: "Positions avaiable : 1",
-      background: "#efdbdb",
+      background: "#8f898f",
+      color: "#fff",
       candidate: "Total candidates : 2",
     },
     {
       title: "Hon. Joint Secretary",
       description: "Positions avaiable : 1",
-      background: "#ddefe0",
+      background: "#8f898f",
+      color: "#fff",
       candidate: "Total candidates : 4",
     },
     {
       title: "Hon. Treasurer",
       description: "Positions avaiable : 1",
-      background: "#f4eddc",
+      background: "#8f898f",
+      color: "#fff",
       candidate: "Total candidates : 22",
     },
     {
       title: "Hon. Joint Treasurer",
       description: "Positions avaiable : 1",
-      background: "#efdbdb",
+      background: "#8f898f",
+      color: "#fff",
       candidate: "Total candidates : 12",
     },
     {
       title: "EC Member Clinician",
       description: "Positions avaiable : 4",
-      background: "#ddefe0",
+      background: "#8f898f",
+      color: "#fff",
       candidate: "Total candidates : 12",
     },
     {
       title: "EC Member Embryologist",
       description: "Positions avaiable : 2",
-      background: "#f4eddc",
+      background: "#8f898f",
+      color: "#fff",
       candidate: "Total candidates : 12",
     },
   ];
@@ -115,28 +137,32 @@ const Home = () => {
       title: "Cast vote",
       description: "Click here to start casting your votes",
       icon: icon1,
-      background: "#ddefe0",
+      background: "#f2f2f2",
+      color: "#000",
     },
     {
       id: 2,
       title: "Instructions",
       description: "Click here to view instructions",
       icon: icon2,
-      background: "#f4eddc",
+      background: "#f2f2f2",
+      color: "#000",
     },
     {
       id: 3,
       title: "FAQ",
       description: "Click here to view FAQ",
       icon: icon3,
-      background: "#efdbdb",
+      background: "#f2f2f2",
+      color: "#000",
     },
     {
       id: 4,
       title: "Contact US",
       description: "Click here to get instructions on call",
       icon: icon4,
-      background: "#dee0ef",
+      background: "#f2f2f2",
+      color: "#000",
     },
   ];
 
@@ -169,54 +195,59 @@ const Home = () => {
               spacing={1}
               justifyContent="flex-start"
               alignItems="center"
+              textAlign="Center"
             >
               <Grid item xs={2} marginBottom={-4}>
                 <IconButton
                   onClick={handleSidebarOpen}
-                  sx={{ marginLeft: "10px" }}
+                  sx={{ marginLeft: "10px", color: "#fff" }}
                 >
                   <Menu />
                 </IconButton>
               </Grid>
               <Grid item xs={10} marginBottom={-4}>
-                <Typography variant="h4">Docracy</Typography>
+                <Typography sx={{ color: "#fff", fontSize: 25 }} variant="h4">
+                  Docracy
+                </Typography>
               </Grid>
             </Grid>
           )}
           {!isSmallDevice && (
-             <List
-             sx={{
-               textAlign: "center",
-               display: "flex",
-               flexDirection: "column",
-               backgroundColor: "#f2f2f2",
-               height: "100%",
-             }}
-           >
-             <ListItem button>
-               <img
-                 src={pollingicon}
-                 className="box-icon"
-                 height="30vw"
-                 style={{ marginRight: "30px" }}
-               />
-               <ListItemText
-                 primary="Polling"
-                 style={{ marginRight: "30px" }}
-               />
-             </ListItem>
-             
-              
-               <ListItem button onClick={handleLogout}>
- <img
-   src={logouticon}
-   className="box-icon"
-   height="30vw"
-   style={{ marginRight: "30px" }}
- />
- <ListItemText primary="Logout" style={{ marginRight: "30px" }} />
-</ListItem>
-           </List>
+            <List
+              sx={{
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                backgroundColor: "#000",
+                height: "100%",
+              }}
+            >
+              <ListItem button>
+                <FaPoll style={{ color: "#fff", fontSize: "32px" }} />
+                <ListItemText
+                  primary="Polling"
+                  style={{
+                    marginRight: "30px",
+                    color: "#fff",
+                    marginLeft: "20px",
+                    fontWeight: "bold",
+                  }}
+                />
+              </ListItem>
+
+              <ListItem button onClick={handleLogout}>
+                <HiOutlineLogout style={{ color: "#fff", fontSize: "32px" }} />
+                <ListItemText
+                  primary="Logout"
+                  style={{
+                    marginRight: "30px",
+                    color: "#fff",
+                    marginLeft: "20px",
+                    fontWeight: "bold",
+                  }}
+                />
+              </ListItem>
+            </List>
           )}
           <Drawer
             anchor="left"
@@ -229,49 +260,49 @@ const Home = () => {
                 textAlign: "center",
                 display: "flex",
                 flexDirection: "column",
-                backgroundColor: "#f2f2f2",
+                backgroundColor: "#000",
                 height: "100%",
               }}
             >
               <ListItem button>
-                <img
-                  src={pollingicon}
-                  className="box-icon"
-                  height="30vw"
-                  style={{ marginRight: "30px" }}
-                />
+                <FaPoll style={{ color: "#fff", fontSize: "32px" }} />
                 <ListItemText
                   primary="Polling"
-                  style={{ marginRight: "30px" }}
+                  style={{
+                    marginRight: "30px",
+                    color: "#fff",
+                    marginLeft: "20px",
+                    fontWeight: "bold",
+                  }}
                 />
               </ListItem>
-              
-               
-                <ListItem button onClick={handleLogout}>
-  <img
-    src={logouticon}
-    className="box-icon"
-    height="30vw"
-    style={{ marginRight: "30px" }}
-  />
-  <ListItemText primary="Logout" style={{ marginRight: "30px" }} />
-</ListItem>
+
+              <ListItem button onClick={handleLogout}>
+                <HiOutlineLogout style={{ color: "#fff", fontSize: "32px" }} />
+                <ListItemText
+                  primary="Logout"
+                  style={{
+                    marginRight: "30px",
+                    color: "#fff",
+                    marginLeft: "20px",
+                    fontWeight: "bold",
+                  }}
+                />
+              </ListItem>
             </List>
           </Drawer>
         </Paper>
       </Grid>
       <Grid item xs={isSmallDevice ? 12 : 10}>
         <Paper
-          elevation={0}
           className="header"
           sx={{
+            boxShadow: "none",
             display: "flex",
             flexDirection: isSmallDevice ? "column" : "row",
             alignItems: isSmallDevice ? "center" : "flex-start",
             marginTop: isSmallDevice ? "10px" : "0px",
             justifyContent: "space-between",
-            backgroundColor: "#ffffff",
-            boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.2)",
             borderRadius: "5px",
             padding: "10px",
             margin: "10px",
@@ -285,7 +316,7 @@ const Home = () => {
                 justifyContent="flex-start"
                 alignItems="center"
               >
-                <Grid item sx={{ fontSize: "32px", margin: "10px" }}>
+                <Grid item sx={{ fontSize: "32px", margin: "10px", mt: 2 }}>
                   <SiAsciidoctor />
                 </Grid>
                 <Grid item>
@@ -300,7 +331,7 @@ const Home = () => {
             )}
           </div>
           <div style={{ display: "flex" }}>
-            <div className="search">
+            <div className="search" style={{ marginTop: 10 }}>
               <InputBase
                 placeholder="Search"
                 value={searchQuery}
@@ -309,16 +340,52 @@ const Home = () => {
                 className="search-input"
               />
             </div>
-            <Avatar
-              className="profile-icon"
-              sx={{
-                marginLeft: "10px",
-                marginTop: "5px",
-                backgroundColor: "#1a1a1a",
+            <Button onClick={handleClick} sx={{ p: 0 }}>
+              <Avatar
+                className="profile-icon"
+                sx={{
+                  marginLeft: "10px",
+                  marginTop: "5px",
+                  backgroundColor: "#1a1a1a",
+                }}
+              >
+                P
+              </Avatar>
+            </Button>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
               }}
             >
-              P
-            </Avatar>
+              <Typography sx={{ p: 2 }}>
+                <span
+                  style={{ marginRight: "0.5rem", verticalAlign: "middle" }}
+                >
+                  <WavingHandIcon />
+                </span>
+                <span style={{ verticalAlign: "middle" }}>Hey, John Doe</span>
+              </Typography>
+              <Typography
+                sx={{ p: 2, cursor: "pointer" }}
+                onClick={handleLogout}
+              >
+                <span
+                  style={{ marginRight: "0.5rem", verticalAlign: "middle" }}
+                >
+                  <HiOutlineLogout style={{ fontSize: "28px" }} />
+                </span>
+                <span style={{ verticalAlign: "middle" }}>Logout</span>
+              </Typography>
+            </Popover>
           </div>
         </Paper>
 
@@ -341,6 +408,8 @@ const Home = () => {
                         backgroundColor: box.background,
                         borderRadius: "5px",
                         padding: "10px",
+                        color: box.color,
+                        border: box.border,
                       }}
                     >
                       <VoteDialogDispatcher
@@ -353,7 +422,7 @@ const Home = () => {
                         alt="Icon 1"
                         className="box-icon"
                         height="50vw"
-                        style={{ marginRight: "30px" }}
+                        style={{ marginRight: "30px", color: box.color }}
                       />
                       <div className="box-content">
                         <h3 style={{ marginBottom: "-10px" }}>{box.title}</h3>
@@ -470,7 +539,7 @@ const Home = () => {
                     margin: "30px",
                     height: "200px",
                     padding: "10px",
-                    color: "#000",
+                    color: campaign.color,
                   }}
                 >
                   <h2 className="campaign-title">{campaign.title}</h2>

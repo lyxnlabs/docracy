@@ -1,92 +1,86 @@
+.header {
+  background-color: #fff !important;
+  padding: 10px;
+  margin: 10px;
+}
 
-  
-  .header {
-    background-color:#f2f2f2 !important;
-    
-    padding:10px;
-    margin:10px;
-    
-  } 
-  
+.title {
+  margin: 0;
+}
+
+.search {
+  background-color: #e6e1e1;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.search-input{
+  margin-left : 10px;
+}
+
+.sidebar {
+  position: relative;
+  height: 100%;
+  padding: 10px;
+  background-color: #000 !important;
+  margin: 10px;
+}
+.title {
+  font-size: 32px; /* Default font size for larger screens */
+}
+.campaign-title {
+  font-size: 20px; /* Font size for smaller screens */
+}
+
+@media (max-width: 600px) {
   .title {
-    margin: 0;
+    font-size: 24px; /* Font size for smaller screens */
   }
-  
-  .search {
-    background-color:#ffffff;
-    padding: 10px;
-    border-radius: 15px;
+  .campaign-title {
+    font-size: 24px; /* Font size for smaller screens */
   }
-  
-  .sidebar {
-  position:relative;
-  height:100%;
-    padding: 10px;
-    background-color:#f2f2f2 !important;
-    margin: 10px;
-  }
-  .title {
-    font-size: 32px; /* Default font size for larger screens */
-  }
-  .campaign-title{
-    font-size: 20px; /* Font size for smaller screens */
-  }
-  
-  @media (max-width: 600px) {
-    .title {
-      font-size: 24px; /* Font size for smaller screens */
-    }
-    .campaign-title{
-      font-size: 24px; /* Font size for smaller screens */
-    }
-  }
-  
-  .content {
-    
-    
-    margin: 10px;
-    padding: 10px;
-    position:relative;
-    height:100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    overflow: auto; /* Add this to enable scrolling if content overflows */
-  }
-  
-  .box {
-    display: flex;
-    align-items: center;
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    height: 80px ;
-  }
+}
 
-  .campaign-box{
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-  }
+.content {
+  margin: 10px;
+  padding: 10px;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: auto; /* Add this to enable scrolling if content overflows */
+}
 
+.box {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  height: 80px;
+}
 
-  
-  .box-icon {
-    margin-right: 10px;
-  }
-  
-  .box-content {
-    display: flex;
-    flex-direction: column;
-  }
-  
+.campaign-box {
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
 
-  .boxes {
-    display:flex;
-flex-wrap:flex;
-width:100%;
-position:relative;
-padding:10px;
-margin-left: 20px;
-  }
-  
+.box-icon {
+  margin-right: 10px;
+}
+
+.box-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.boxes {
+  display: flex;
+  flex-wrap: flex;
+  width: 100%;
+  position: relative;
+  padding: 10px;
+  margin-left: 20px;
+}
