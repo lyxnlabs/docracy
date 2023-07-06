@@ -16,7 +16,7 @@ import { ChevronLeft, ChevronRight, Search, Menu } from "@mui/icons-material";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./home.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import icon1 from "../assets/img/ballot.png";
 import icon2 from "../assets/img/instructions.png";
 import icon3 from "../assets/img/conversation.png";
@@ -25,11 +25,16 @@ import { SiAsciidoctor } from "react-icons/si";
 
 import logouticon from "../assets/img/log-out.png";
 import pollingicon from "../assets/img/polling.png";
+import VoteDialogDispatcher from "./VoteDialogDispatcher";
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const [currentActionID, setCurrentActionID] = useState(0);
+  let [dispatchCount, setDispatchCount] = useState(0);
+  useEffect(() => {
+    console.log(dispatchCount);
+  }, [dispatchCount]);
   const handleSlideChange = (index) => {
     setCurrentSlide(index);
   };
@@ -47,72 +52,76 @@ const Home = () => {
       title: "Chairperson",
       description: "Positions avaiable : 1",
       background: "#ddefe0",
-      candidate : "Total candidates : 6"
+      candidate: "Total candidates : 6",
     },
     {
       title: "Vice Chairperson",
       description: "Positions avaiable : 1",
       background: "#f4eddc",
-      candidate : "Total candidates : 4"
+      candidate: "Total candidates : 4",
     },
     {
       title: "Hon. Secretary",
       description: "Positions avaiable : 1",
       background: "#efdbdb",
-      candidate : "Total candidates : 2"
+      candidate: "Total candidates : 2",
     },
     {
       title: "Hon. Joint Secretary",
       description: "Positions avaiable : 1",
       background: "#ddefe0",
-      candidate : "Total candidates : 4"
+      candidate: "Total candidates : 4",
     },
     {
       title: "Hon. Treasurer",
       description: "Positions avaiable : 1",
       background: "#f4eddc",
-      candidate : "Total candidates : 22"
+      candidate: "Total candidates : 22",
     },
     {
       title: "Hon. Joint Treasurer",
       description: "Positions avaiable : 1",
       background: "#efdbdb",
-      candidate : "Total candidates : 12"
+      candidate: "Total candidates : 12",
     },
     {
       title: "EC Member Clinician",
       description: "Positions avaiable : 4",
       background: "#ddefe0",
-      candidate : "Total candidates : 12"
+      candidate: "Total candidates : 12",
     },
     {
       title: "EC Member Embryologist",
       description: "Positions avaiable : 2",
       background: "#f4eddc",
-      candidate : "Total candidates : 12"
+      candidate: "Total candidates : 12",
     },
   ];
 
   const boxData = [
     {
+      id: 1,
       title: "Cast vote",
       description: "Click here to start casting your votes",
       icon: icon1,
       background: "#ddefe0",
     },
     {
+      id: 2,
       title: "Instructions",
       description: "Click here to view instructions",
       icon: icon2,
       background: "#f4eddc",
     },
     {
+      id: 3,
       title: "FAQ",
       description: "Click here to view FAQ",
       icon: icon3,
       background: "#efdbdb",
     },
     {
+      id: 4,
       title: "Contact US",
       description: "Click here to get instructions on call",
       icon: icon4,
@@ -303,7 +312,10 @@ const Home = () => {
                 <Grid key={index} item xs={12} md={3}>
                   <a
                     style={{ textDecoration: "none", cursor: "pointer" }}
-                    onClick={() => alert("Hello")}
+                    onClick={() => {
+                      setCurrentActionID(box.id);
+                      setDispatchCount(dispatchCount++);
+                    }}
                   >
                     <Paper
                       elevation={2}
@@ -314,6 +326,11 @@ const Home = () => {
                         padding: "10px",
                       }}
                     >
+                      <VoteDialogDispatcher
+                        open={box.id === currentActionID}
+                        id={currentActionID}
+                        dispatchCount={dispatchCount}
+                      />
                       <img
                         src={box.icon}
                         alt="Icon 1"
@@ -442,7 +459,6 @@ const Home = () => {
                   <h2 className="campaign-title">{campaign.title}</h2>
                   <p>{campaign.description}</p>
                   <p>{campaign.candidate}</p>
-                  
                 </div>
               ))}
             </Carousel>
