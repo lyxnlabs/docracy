@@ -12,6 +12,8 @@ import {
   ListItemText,
   Button,
 } from "@mui/material";
+import React, { useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
 import { ChevronLeft, ChevronRight, Search, Menu } from "@mui/icons-material";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -46,6 +48,8 @@ const Home = () => {
   const handleSidebarClose = () => {
     setSidebarOpen(false);
   };
+
+
 
   const campaignData = [
     {

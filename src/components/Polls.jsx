@@ -30,18 +30,22 @@ const posts = [
 ];
 
 const candidates = [
-  // Example candidate data
-  { id: 1, name: "Candidate 1", image: avatar1 },
-  { id: 2, name: "Candidate 2", image: avatar2 },
-  { id: 3, name: "Candidate 3", image: avatar3 },
-  { id: 4, name: "Candidate 4", image: avatar4 },
-  { id: 5, name: "Candidate 5", image: avatar5 },
-  { id: 6, name: "Candidate 6", image: avatar6 },
-  { id: 7, name: "Candidate 7", image: avatar7 },
-  { id: 8, name: "Candidate 8", image: avatar8 },
-  { id: 9, name: "Candidate 9", image: avatar9 },
+  { id: 1, name: "Candidate 1", image: avatar1, postId: 1 }, // Assign postId to candidates
+  { id: 2, name: "Candidate 2", image: avatar2, postId: 1 },
+  { id: 3, name: "Candidate 3", image: avatar3, postId: 1 },
+  { id: 4, name: "Candidate 4", image: avatar4, postId: 1 },
+  { id: 5, name: "Candidate 5", image: avatar5, postId: 1 },
+  { id: 6, name: "Candidate 6", image: avatar6, postId: 2 },
+  { id: 7, name: "Candidate 7", image: avatar7, postId: 2 },
+  { id: 8, name: "Candidate 8", image: avatar8, postId: 2 },
+  { id: 9, name: "Candidate 9", image: avatar9, postId: 3 },
+  { id: 10, name: "Candidate 10", image: avatar8, postId: 4 },
+  { id: 11, name: "Candidate 11", image: avatar9, postId: 4 },
   // ... add more candidates
 ];
+
+
+
 
 const Polls = () => {
   const [selectedCandidate, setSelectedCandidate] = useState(null);
@@ -52,7 +56,7 @@ const Polls = () => {
 
   const handleCandidateClick = (candidate, candidate_id, post_id) => {
     setSelectedCandidate(candidate);
-    setCasts(casts.append({ post_id: post_id, candidate_id: candidate_id }));
+    setCasts([...casts, { post_id: post_id, candidate_id: candidate_id }]);
   };
   const cardRef = useRef(null); // Ref for the Card component
 
@@ -67,6 +71,7 @@ const Polls = () => {
       }, 300);
     }
   };
+  const filteredCandidates = candidates.filter(candidate => candidate.postId === posts[currentPostIndex].id);
 
   const handleBack = () => {
     if (currentPostIndex > 0) {
@@ -104,7 +109,7 @@ const Polls = () => {
       <CardHeader title={"Vote for " + posts[currentPostIndex].name} />
       <CardContent>
         <Grid container spacing={2}>
-          {candidates.map((candidate) => (
+        {filteredCandidates.map((candidate) => (
             <Grid item xs={6} sm={4} key={candidate.id}>
               <Card
                 onClick={() =>
