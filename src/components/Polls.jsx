@@ -147,71 +147,73 @@ const Polls = () => {
     <>
       {!reviewClicked ? (
         <Card
-          ref={cardRef}
-          sx={{
-            maxWidth: 500,
-            margin: "0",
-            marginTop: isSmallDevice ? 2 : 6,
-            border: "1px solid black",
-            ml: isSmallDevice ? 3 : "auto",
-            mr: isSmallDevice ? 3 : "auto",
-          }}
-        >
-          <CardHeader title={"Vote for " + posts[currentPostIndex].name} />
-          {!(casts.length >= currentPostIndex + 1) && (
-            <Alert sx={{ ml: 2, mr: 2 }} severity="error">
-              Please select a candidate
-            </Alert>
-          )}
+  ref={cardRef}
+  sx={{
+    maxWidth: 500,
+    margin: "0",
+    marginTop: isSmallDevice ? 2 : 6,
+    border: "1px solid black",
+    ml: isSmallDevice ? 3 : "auto",
+    mr: isSmallDevice ? 3 : "auto",
+  }}
+>
+  <CardHeader title={"Vote for " + posts[currentPostIndex].name} />
+  {!(casts.length >= currentPostIndex + 1) && (
+    <Alert sx={{ ml: 2, mr: 2 }} severity="error">
+      Please select a candidate
+    </Alert>
+  )}
 
-          <CardContent>
-            <Grid container spacing={2}>
-              {filteredCandidates.map((candidate) => (
-                <Grid item xs={6} sm={4} key={candidate.id}>
-                  <Card
-                    onClick={() =>
-                      handleCandidateClick(
-                        candidate,
-                        candidate.id,
-                        posts[currentPostIndex].id
-                      )
-                    }
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor:
-                        casts[currentPostIndex]?.candidate_id === candidate.id
-                          ? "#e0e0e0"
-                          : "white",
-                      opacity: showCard ? 1 : 0,
-                      transition: "opacity 0.3s",
-                      border:
-                        casts[currentPostIndex]?.candidate_id === candidate.id
-                          ? "2px solid black"
-                          : "1px dotted black",
-                      width: "100%",
+  <CardContent>
+    <Grid container spacing={2}>
+      {filteredCandidates.map((candidate) => (
+        <Grid item xs={12} sm={6} md={4} key={candidate.id}>
+          <Card
+            onClick={() =>
+              handleCandidateClick(
+                candidate,
+                candidate.id,
+                posts[currentPostIndex].id
+              )
+            }
+            sx={{
+              cursor: "pointer",
+              backgroundColor:
+                casts[currentPostIndex]?.candidate_id === candidate.id
+                  ? "#e0e0e0"
+                  : "white",
+              opacity: showCard ? 1 : 0,
+              transition: "opacity 0.3s",
+              border:
+                casts[currentPostIndex]?.candidate_id === candidate.id
+                  ? "2px solid black"
+                  : "1px dotted black",
+              width: "100%",
+            }}
+          >
+            <CardContent>
+              <img
+                src={candidate.image}
+                alt={candidate.name}
+                style={{ width: "100%", borderRadius: "50%" }}
+              />
+              <Typography variant="body2" align="center">
+                {candidate.name}
+                {selectedCandidate?.id === candidate?.id && ( // Conditionally render tick mark
+                  <TbSignRightFilled
+                    style={{
+                      position: "absolute",
+                      top: 10,
+                      right: 10,
+                      color: "#fff",
                     }}
-                  >
-                    <CardContent>
-                      <img
-                        src={candidate.image}
-                        alt={candidate.name}
-                        style={{ width: "100%", borderRadius: "50%" }}
-                      />
-                      <Typography variant="body2" align="center">
-                        {candidate.name}
-                        {selectedCandidate?.id === candidate?.id && ( // Conditionally render tick mark
-                          <TbSignRightFilled
-                            style={{
-                              position: "absolute",
-                              top: 10,
-                              right: 10,
-                              color: "#fff",
-                            }}
-                          />
-                        )}
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                  />
+                )}
+              </Typography>
+            </CardContent>
+          </Card>
+        
+  
                 </Grid>
               ))}
             </Grid>
@@ -281,11 +283,11 @@ const Polls = () => {
             marginRight: isSmallDevice ? 20 : "auto",
           }}
         >
-          <Typography variant="h4">REVIEW</Typography>
+          <Typography variant="h4" sx={{fontWeight:'bold', marginBottom:"-20px"}}>REVIEW</Typography>
           <TableContainer
             elevation={0}
             sx={{
-              maxWidth: 350,
+              maxWidth: 700,
               margin: "0",
               marginTop: isSmallDevice ? 2 : 6,
               ml: isSmallDevice ? 1.5 : "auto",
@@ -293,59 +295,44 @@ const Polls = () => {
             }}
             component={Paper}
           >
-            <Table>
-              <TableHead sx={{ backgroundColor: "black" }}>
-                <TableRow>
-                  <TableCell sx={{ color: "#f2f2f2", border: "1px solid black" }}>
-                    <Typography >Post</Typography>
-                  </TableCell>
-                  <TableCell sx={{ color: "#f2f2f2", border: "1px solid black" }}>
-                    <Typography >
-                      Your selected candidate
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {casts.map((cast, index) => (
-                  <TableRow key={index}>
-                    <TableCell sx={{ border: "1px solid black" }}>
-                      {getPostNameByPostID(cast.post_id)}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        border: "1px solid black",
-                        alignItems: "center",
-                        justifyContent: "center ",
-                        width: "150px",
-                      }}
-                    >
-                      <Card
-                        sx={{
-                          cursor: "pointer",
-                          boxShadow: "none",
-                          opacity: showCard ? 1 : 0,
-                          transition: "opacity 0.3s",
-                          width: "150px",
-                          height: "170px",
-                        }}
-                      >
-                        <CardContent>
-                          <img
-                            src={getImageByCandidateID(cast.candidate_id)}
-                            alt={getNameByCandidateID(cast.candidate_id)}
-                            style={{ width: "100%", borderRadius: "50%" }}
-                          />
-                          <Typography variant="body2" align="center">
-                            {getNameByCandidateID(cast.candidate_id)}
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <Grid container spacing={2}>
+  {casts.map((cast, index) => (
+    <Grid item xs={12} sm={6} md={4} key={index}>
+      <Card
+        sx={{
+          maxWidth: 300,
+          margin: "0",
+          marginTop: isSmallDevice ? 2 : 6,
+          ml: isSmallDevice ? 2 : "auto",
+          mr: isSmallDevice ? 3 : "auto",
+        }}
+      >
+        <CardContent>
+          <Typography variant="h6" sx={{ marginBottom: 2 }}>
+            Post: {getPostNameByPostID(cast.post_id)}
+          </Typography>
+          <Typography variant="body2" sx={{ marginBottom: 2 }}>
+            Your selected candidate: {getNameByCandidateID(cast.candidate_id)}
+          </Typography>
+          <div
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={getImageByCandidateID(cast.candidate_id)}
+              alt={getNameByCandidateID(cast.candidate_id)}
+              style={{ width: "150px", height: "150px", borderRadius: "50%" }}
+            />
+          </div>
+        </CardContent>
+      </Card>
+    </Grid>
+  ))}
+</Grid>
+
             <div
               style={{
                 marginTop: 20,

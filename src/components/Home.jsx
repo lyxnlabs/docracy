@@ -489,11 +489,12 @@ const Home = () => {
               marginBottom={-5}
               
               marginTop={0}
-              sx={{ padding:"20px"}}
+              sx={{ padding:"20px", paddingLeft:"35px"}}
             >
              <b>General Elections </b>
-            <br/>
+            <br/><br/>
                <b>Open posts</b>
+               <br/>
             </Typography>
             
           </Grid>
