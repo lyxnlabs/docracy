@@ -283,6 +283,7 @@ const Polls = () => {
         >
           <Typography variant="h4">REVIEW</Typography>
           <TableContainer
+            elevation={0}
             sx={{
               maxWidth: 350,
               margin: "0",

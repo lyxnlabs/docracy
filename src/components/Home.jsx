@@ -331,7 +331,7 @@ const Home = () => {
         </Paper>
       </Grid>
       <Grid item xs={isSmallDevice ? 12 : 10}>
-        <Paper elevation={2}
+        <Paper elevation={0}
           className="header"
           sx={{
             
@@ -368,7 +368,7 @@ const Home = () => {
             )}
           </div>
           <div style={{ display: "flex" }}>
-            <div className="search" style={{ marginTop: 10 }}>
+            <div className="search" style={{ marginTop: 10 , backgroundColor:"#e6e6e6"}}>
               <InputBase
                 placeholder="Search"
                 value={searchQuery}
