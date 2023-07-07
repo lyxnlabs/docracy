@@ -121,57 +121,49 @@ const Home = () => {
     {
       title: "Chairperson",
       description: "Positions avaiable : 1",
-      background: "#8f898f",
-      color: "#fff",
-      candidate: "Total candidates : 6",
+      background: "#f2f2f2",
+     candidate: "Total candidates : 6",
     },
     {
       title: "Vice Chairperson",
       description: "Positions avaiable : 1",
-      background: "#8f898f",
-      color: "#fff",
+      background: "#f2f2f2",
       candidate: "Total candidates : 4",
     },
     {
       title: "Hon. Secretary",
       description: "Positions avaiable : 1",
-      background: "#8f898f",
-      color: "#fff",
+      background: "#f2f2f2",
       candidate: "Total candidates : 2",
     },
     {
       title: "Hon. Joint Secretary",
       description: "Positions avaiable : 1",
-      background: "#8f898f",
-      color: "#fff",
+      background: "#f2f2f2",
       candidate: "Total candidates : 4",
     },
     {
       title: "Hon. Treasurer",
       description: "Positions avaiable : 1",
-      background: "#8f898f",
-      color: "#fff",
+      background: "#f2f2f2",
       candidate: "Total candidates : 22",
     },
     {
       title: "Hon. Joint Treasurer",
       description: "Positions avaiable : 1",
-      background: "#8f898f",
-      color: "#fff",
+      background: "#f2f2f2",
       candidate: "Total candidates : 12",
     },
     {
       title: "EC Member Clinician",
       description: "Positions avaiable : 4",
-      background: "#8f898f",
-      color: "#fff",
+      background: "#f2f2f2",
       candidate: "Total candidates : 12",
     },
     {
       title: "EC Member Embryologist",
       description: "Positions avaiable : 2",
-      background: "#8f898f",
-      color: "#fff",
+      background: "#f2f2f2",
       candidate: "Total candidates : 12",
     },
   ];
@@ -339,10 +331,10 @@ const Home = () => {
         </Paper>
       </Grid>
       <Grid item xs={isSmallDevice ? 12 : 10}>
-        <Paper
+        <Paper elevation={2}
           className="header"
           sx={{
-            boxShadow: "none",
+            
             display: "flex",
             flexDirection: isSmallDevice ? "column" : "row",
             alignItems: isSmallDevice ? "center" : "flex-start",
@@ -445,7 +437,7 @@ const Home = () => {
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Grid container spacing={3} className="boxes">
+            <Grid container spacing={3} className="boxes" >
               {boxData.map((box, index) => (
                 <Grid key={index} item xs={12} md={3}>
                   <a
@@ -488,50 +480,25 @@ const Home = () => {
               ))}
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+        
+         
+          <Grid item xs={12} >
             <Typography
               variant="h5"
-              gutterBottom
-              marginBottom={-3}
-              marginLeft={5}
-              marginTop={1}
+           elevation={2}
+              marginBottom={-5}
+              
+              marginTop={0}
+              sx={{ padding:"20px"}}
             >
-              <b>General Elections</b>
+             <b>General Elections </b>
+            <br/>
+               <b>Open posts</b>
             </Typography>
+            
           </Grid>
-          <Grid item xs={12}>
-            <Typography
-              variant="h5"
-              gutterBottom
-              marginBottom={-3}
-              marginLeft={5}
-              marginTop={1}
-            >
-              <p>This is a dummy election</p>
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sx={{ marginTop: "10px" }}>
-            <Typography
-              variant="h5"
-              gutterBottom
-              marginBottom={-3}
-              marginLeft={5}
-              marginTop={1}
-            >
-              <b>Open posts</b>
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sx={{ marginTop: "10px" }}>
-            <Typography
-              gutterBottom
-              marginBottom={-3}
-              marginLeft={5}
-              marginTop={1}
-            >
-              <p>Click on each post to know more...</p>
-            </Typography>
-          </Grid>
-          <Grid item xs={12} className="carousel">
+       
+          <Grid item xs={12} className="carousel" sx={{color:'black'}}>
             <Carousel
               selectedItem={currentSlide}
               autoScroll={true}
@@ -591,8 +558,8 @@ const Home = () => {
                     borderRadius: "10px",
                     backgroundColor: campaign.background,
                     margin: "30px",
-                    height: "200px",
-                    padding: "10px",
+                    height: "300px",
+                    padding: "30px",
                     color: campaign.color,
                   }}
                 >

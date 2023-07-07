@@ -284,10 +284,10 @@ const Polls = () => {
           <Typography variant="h4">REVIEW</Typography>
           <TableContainer
             sx={{
-              maxWidth: 500,
+              maxWidth: 350,
               margin: "0",
               marginTop: isSmallDevice ? 2 : 6,
-              ml: isSmallDevice ? 3 : "auto",
+              ml: isSmallDevice ? 1.5 : "auto",
               mr: isSmallDevice ? 3 : "auto",
             }}
             component={Paper}
@@ -295,11 +295,11 @@ const Polls = () => {
             <Table>
               <TableHead sx={{ backgroundColor: "black" }}>
                 <TableRow>
-                  <TableCell sx={{ color: "white", border: "1px solid black" }}>
-                    <Typography variant="h6">Post</Typography>
+                  <TableCell sx={{ color: "#f2f2f2", border: "1px solid black" }}>
+                    <Typography >Post</Typography>
                   </TableCell>
-                  <TableCell sx={{ color: "white", border: "1px solid black" }}>
-                    <Typography variant="h6">
+                  <TableCell sx={{ color: "#f2f2f2", border: "1px solid black" }}>
+                    <Typography >
                       Your selected candidate
                     </Typography>
                   </TableCell>
@@ -316,12 +316,13 @@ const Polls = () => {
                         border: "1px solid black",
                         alignItems: "center",
                         justifyContent: "center ",
+                        width: "150px",
                       }}
                     >
                       <Card
                         sx={{
                           cursor: "pointer",
-                          backgroundColor: "white",
+                          boxShadow: "none",
                           opacity: showCard ? 1 : 0,
                           transition: "opacity 0.3s",
                           width: "150px",
@@ -350,6 +351,7 @@ const Polls = () => {
                 textAlign: "center",
                 display: "flex",
                 justifyContent: "space-between",
+                backgroundColor:"none"
               }}
             >
               <Button

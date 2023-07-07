@@ -1,7 +1,8 @@
 .header {
-  background-color: #fff !important;
+  background-color: #f2f2f2 !important;
   padding: 10px;
   margin: 10px;
+  box-shadow: "2px 2px 10px rgba(0, 0, 0, 0.2)";
 }
 
 .title {
@@ -9,8 +10,8 @@
 }
 
 .search {
-  background-color: #e6e1e1;
-  padding: 10px;
+  background-color: #ffffff;
+    padding: 10px;
   border-radius: 15px;
 }
 

@@ -1,4 +1,4 @@
-import { Dialog } from "@mui/material";
+import { Dialog, DialogContent, DialogActions, Button, Typography, DialogTitle } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 export default function InstructionsDialog(props) {
@@ -9,5 +9,38 @@ export default function InstructionsDialog(props) {
   useEffect(() => {
     if (props.dispatcher) setDispatcherID(props.dispatcher);
   }, [props.dispatcher]);
-  return <Dialog open={dispatcherId === 2} onClose={handleClose} />;
+  return (
+    <Dialog onClose={handleClose} open={dispatcherId === 2} >
+      <div style={{backgroundColor:'#f2f2f2'}}>
+      
+      <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+        <b>Instructions</b>
+      </DialogTitle>
+      <DialogContent dividers>
+        <Typography gutterBottom>
+          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+          consectetur ac, vestibulum at eros.
+        </Typography>
+        <br/>
+        <Typography gutterBottom>
+          Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+        </Typography>
+        <br/>
+        <Typography gutterBottom>
+          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
+          magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
+          ullamcorper nulla non metus auctor fringilla.
+        </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>
+          Close
+        </Button>
+      </DialogActions>
+      </div>
+    </Dialog>
+  );
 }
+
