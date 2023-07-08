@@ -557,6 +557,7 @@ const Home = () => {
                   className="campaign-box"
                   style={{
                     borderRadius: "10px",
+                    textAlign: "left",
                     backgroundColor: campaign.background,
                     margin: "30px",
                     height: "300px",
@@ -564,9 +565,11 @@ const Home = () => {
                     color: campaign.color,
                   }}
                 >
-                  <h2 className="campaign-title">{campaign.title}</h2>
-                  <p>{campaign.description}</p>
-                  <p>{campaign.candidate}</p>
+                  <h2 style={{fontSize:"24px", marginBottom:"30px"}} className="campaign-title">{campaign.title}</h2>
+                
+                  <p style={{fontSize:"20px"}}>{campaign.description}</p>
+                 
+                  <p style={{fontSize:"20px"}}>{campaign.candidate}</p>
                 </div>
               ))}
             </Carousel>

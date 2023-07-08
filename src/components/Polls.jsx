@@ -31,11 +31,10 @@ import avatar9 from "../assets/img/avatars/avatar9.png";
 import { TbSignRightFilled } from "react-icons/tb";
 const posts = [
   // Example candidate data
-  { id: 1, name: "Secretary " },
-  { id: 2, name: "Treasurer " },
-  { id: 3, name: "President " },
-  { id: 4, name: "Joint Secretary" },
-  { id: 5, name: "Joint Secretary " },
+  { id: 1, name: "Secretary ", limit:1 },
+  { id: 2, name: "Treasurer ", limit:4 },
+  { id: 3, name: "President ", limit:2 },
+ 
   // ... add more candidates
 ];
 
@@ -47,12 +46,11 @@ const candidates = [
   { id: 5, name: "Candidate 5", image: avatar5, postId: 2 },
   { id: 6, name: "Candidate 6", image: avatar6, postId: 3 },
   { id: 7, name: "Candidate 7", image: avatar7, postId: 3 },
-  { id: 8, name: "Candidate 8", image: avatar8, postId: 4 },
-  { id: 9, name: "Candidate 9", image: avatar9, postId: 4 },
-  { id: 10, name: "Candidate 10", image: avatar8, postId: 5 },
-  { id: 11, name: "Candidate 11", image: avatar9, postId: 5 },
-  { id: 12, name: "Candidate 12", image: avatar8, postId: 5 },
-  { id: 13, name: "Candidate 13", image: avatar9, postId: 5 },
+  { id: 8, name: "Candidate 8", image: avatar8, postId: 2 },
+  { id: 9, name: "Candidate 9", image: avatar9, postId: 2 },
+  { id: 10, name: "Candidate 10", image: avatar8, postId: 3 },
+  { id: 11, name: "Candidate 11", image: avatar9, postId: 3 },
+ 
   // ... add more candidates
 ];
 
@@ -63,22 +61,48 @@ const Polls = () => {
   const isSmallDevice = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const [casts, setCasts] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-
+const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
   const [reviewClicked, setReviewClicked] = useState(false);
-
   const handleCandidateClick = (candidate, candidate_id, post_id) => {
-    setSelectedCandidate(candidate);
-    let indexOfOldItem = casts.findIndex(function (item) {
-      return item.post_id === post_id;
-    });
-
-    if (indexOfOldItem !== -1) {
-      casts[indexOfOldItem] = { post_id: post_id, candidate_id: candidate_id };
+    const selectedCandidatesForPost = casts.filter((cast) => cast.post_id === post_id);
+  
+    const isCandidateSelected = selectedCandidatesForPost.some((cast) => cast.candidate_id === candidate_id);
+  
+    if (isCandidateSelected) {
+      // Candidate is already selected, so remove them from the casts array
+      const updatedCasts = casts.filter((cast) => cast.candidate_id !== candidate_id);
+      setCasts(updatedCasts);
     } else {
-      casts.push({ post_id: post_id, candidate_id: candidate_id });
+      let postLimit = 1;
+      if (post_id === 1)
+        postLimit = 1;
+      if (post_id === 2)
+        postLimit = 4;
+      if (post_id === 3)
+        postLimit = 2;
+  
+      if (selectedCandidatesForPost.length < postLimit) {
+        setCasts((prevCasts) => [...prevCasts, { post_id, candidate_id }]);
+      } else {
+        // The maximum number of candidates has been reached for this post
+        // Remove one candidate and replace with the new candidate
+  
+        // Find the index of the candidate to remove (assuming post_id is unique for each candidate)
+        const indexToRemove = casts.findIndex((cast) => cast.post_id === post_id);
+        if (indexToRemove !== -1) {
+          // Create a new casts array with the replaced candidate
+          const updatedCasts = [...casts];
+          updatedCasts[indexToRemove] = { post_id, candidate_id };
+          setCasts(updatedCasts);
+        }
+      }
     }
-    console.log(casts);
   };
+  
+  
+  
+  
+  
   const cardRef = useRef(null); // Ref for the Card component
 
   const handlegoBack = () => {
@@ -129,6 +153,7 @@ const Polls = () => {
   };
 
   const handleReviewAndSubmit = () => {
+    
     setReviewClicked(true);
     console.log(JSON.stringify(casts));
   };
@@ -160,9 +185,10 @@ const Polls = () => {
   <CardHeader title={"Vote for " + posts[currentPostIndex].name} />
   {!(casts.length >= currentPostIndex + 1) && (
     <Alert sx={{ ml: 2, mr: 2 }} severity="error">
-      Please select a candidate
+      Please select {posts[currentPostIndex].limit} candidate(s)
     </Alert>
   )}
+ 
 
   <CardContent>
     <Grid container spacing={2}>
@@ -179,14 +205,14 @@ const Polls = () => {
             sx={{
               cursor: "pointer",
               backgroundColor:
-                casts[currentPostIndex]?.candidate_id === candidate.id
-                  ? "#e0e0e0"
+                casts.some((cast) => cast.candidate_id === candidate.id)
+                  ? "#e0e0e0" // Selected candidate color
                   : "white",
               opacity: showCard ? 1 : 0,
               transition: "opacity 0.3s",
               border:
-                casts[currentPostIndex]?.candidate_id === candidate.id
-                  ? "2px solid black"
+                casts.some((cast) => cast.candidate_id === candidate.id)
+                  ? "2px solid black" // Selected candidate border
                   : "1px dotted black",
               width: "100%",
             }}
@@ -258,7 +284,8 @@ const Polls = () => {
                 <Button
                   variant="contained"
                   onClick={handleReviewAndSubmit}
-                  disabled={!(casts.length === 5)}
+                
+                  disabled={!(casts.length === 7)}
                   sx={{
                     backgroundColor: "#000",
                     "&:hover": {
@@ -296,7 +323,9 @@ const Polls = () => {
             component={Paper}
           >
             <Grid container spacing={2}>
-  {casts.map((cast, index) => (
+           
+   
+   {sortedCasts.map((cast, index) => (
     <Grid item xs={12} sm={6} md={4} key={index}>
       <Card
         sx={{
@@ -307,6 +336,7 @@ const Polls = () => {
           mr: isSmallDevice ? 3 : "auto",
         }}
       >
+      
         <CardContent>
           <Typography variant="h6" sx={{ marginBottom: 2 }}>
             Post: {getPostNameByPostID(cast.post_id)}
