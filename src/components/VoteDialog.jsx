@@ -39,7 +39,7 @@ export default function VoteDialog(props) {
             </Button>
           </Toolbar>
         </AppBar>
-        <DialogContent>
+        <DialogContent >
         <Polls/>
         </DialogContent>
     </Dialog>

@@ -34,6 +34,7 @@ import { FaPoll } from "react-icons/fa";
 import { HiOutlineLogout } from "react-icons/hi";
 
 import VoteDialogDispatcher from "./VoteDialogDispatcher";
+import ElectionInfo from "./ElectionInfo";
 
 const Home = () => {
   const [userData, setData] = useState([]);
@@ -119,53 +120,23 @@ const Home = () => {
 
   const campaignData = [
     {
-      title: "Chairperson",
-      description: "Positions avaiable : 1",
+      title: "Executive council Member - Embryologist",
+      description: "Positions avaiable : 2",
       background: "#f2f2f2",
      candidate: "Total candidates : 6",
     },
     {
-      title: "Vice Chairperson",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 4",
-    },
-    {
-      title: "Hon. Secretary",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 2",
-    },
-    {
-      title: "Hon. Joint Secretary",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 4",
-    },
-    {
-      title: "Hon. Treasurer",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 22",
-    },
-    {
-      title: "Hon. Joint Treasurer",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 12",
-    },
-    {
-      title: "EC Member Clinician",
+      title: "Executive council Member - Clinician",
       description: "Positions avaiable : 4",
       background: "#f2f2f2",
-      candidate: "Total candidates : 12",
+      candidate: "Total candidates : 4",
     },
     {
-      title: "EC Member Embryologist",
-      description: "Positions avaiable : 2",
+      title: "Honorary Joint Secretary",
+      description: "Positions avaiable : 1",
       background: "#f2f2f2",
-      candidate: "Total candidates : 12",
-    },
+      candidate: "Total candidates : 6",
+    }
   ];
 
   const boxData = [
@@ -492,8 +463,8 @@ const Home = () => {
               sx={{ padding:"20px", paddingLeft:"35px"}}
             >
              <b>General Elections </b>
-            <br/><br/>
-               <b>Open posts</b>
+              <ElectionInfo/>
+            
                <br/>
             </Typography>
             

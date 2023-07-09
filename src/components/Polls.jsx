@@ -17,6 +17,7 @@ import {
   TableBody,
   Backdrop,
   CircularProgress,
+  LinearProgress,
 } from "@mui/material";
 import avatar1 from "../assets/img/avatars/avatar1.png";
 import avatar2 from "../assets/img/avatars/avatar2.png";
@@ -31,10 +32,10 @@ import avatar9 from "../assets/img/avatars/avatar9.png";
 import { TbSignRightFilled } from "react-icons/tb";
 const posts = [
   // Example candidate data
-  { id: 1, name: "Secretary ", limit:1 },
-  { id: 2, name: "Treasurer ", limit:4 },
-  { id: 3, name: "President ", limit:2 },
- 
+  { id: 1, name: "Honorary Joint Treasurer", limit: 1 },
+  { id: 2, name: "Executive Council Member - Clinician ", limit: 4 },
+  { id: 3, name: "Executive Council Member - Embryologist", limit: 2 },
+
   // ... add more candidates
 ];
 
@@ -50,7 +51,7 @@ const candidates = [
   { id: 9, name: "Candidate 9", image: avatar9, postId: 2 },
   { id: 10, name: "Candidate 10", image: avatar8, postId: 3 },
   { id: 11, name: "Candidate 11", image: avatar9, postId: 3 },
- 
+
   // ... add more candidates
 ];
 
@@ -61,34 +62,39 @@ const Polls = () => {
   const isSmallDevice = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const [casts, setCasts] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
+  const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
   const [reviewClicked, setReviewClicked] = useState(false);
   const handleCandidateClick = (candidate, candidate_id, post_id) => {
-    const selectedCandidatesForPost = casts.filter((cast) => cast.post_id === post_id);
-  
-    const isCandidateSelected = selectedCandidatesForPost.some((cast) => cast.candidate_id === candidate_id);
-  
+    const selectedCandidatesForPost = casts.filter(
+      (cast) => cast.post_id === post_id
+    );
+
+    const isCandidateSelected = selectedCandidatesForPost.some(
+      (cast) => cast.candidate_id === candidate_id
+    );
+
     if (isCandidateSelected) {
       // Candidate is already selected, so remove them from the casts array
-      const updatedCasts = casts.filter((cast) => cast.candidate_id !== candidate_id);
+      const updatedCasts = casts.filter(
+        (cast) => cast.candidate_id !== candidate_id
+      );
       setCasts(updatedCasts);
     } else {
       let postLimit = 1;
-      if (post_id === 1)
-        postLimit = 1;
-      if (post_id === 2)
-        postLimit = 4;
-      if (post_id === 3)
-        postLimit = 2;
-  
+      if (post_id === 1) postLimit = 1;
+      if (post_id === 2) postLimit = 4;
+      if (post_id === 3) postLimit = 2;
+
       if (selectedCandidatesForPost.length < postLimit) {
         setCasts((prevCasts) => [...prevCasts, { post_id, candidate_id }]);
       } else {
         // The maximum number of candidates has been reached for this post
         // Remove one candidate and replace with the new candidate
-  
+
         // Find the index of the candidate to remove (assuming post_id is unique for each candidate)
-        const indexToRemove = casts.findIndex((cast) => cast.post_id === post_id);
+        const indexToRemove = casts.findIndex(
+          (cast) => cast.post_id === post_id
+        );
         if (indexToRemove !== -1) {
           // Create a new casts array with the replaced candidate
           const updatedCasts = [...casts];
@@ -98,11 +104,7 @@ const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
       }
     }
   };
-  
-  
-  
-  
-  
+
   const cardRef = useRef(null); // Ref for the Card component
 
   const handlegoBack = () => {
@@ -153,7 +155,6 @@ const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
   };
 
   const handleReviewAndSubmit = () => {
-    
     setReviewClicked(true);
     console.log(JSON.stringify(casts));
   };
@@ -166,80 +167,148 @@ const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
       setSubmitted(false);
     }, 3000);
   };
-  
 
   return (
     <>
       {!reviewClicked ? (
         <Card
-  ref={cardRef}
-  sx={{
-    maxWidth: 500,
-    margin: "0",
-    marginTop: isSmallDevice ? 2 : 6,
-    border: "1px solid black",
-    ml: isSmallDevice ? 3 : "auto",
-    mr: isSmallDevice ? 3 : "auto",
-  }}
->
-  <CardHeader title={"Vote for " + posts[currentPostIndex].name} />
-  {!(casts.length >= currentPostIndex + 1) && (
-    <Alert sx={{ ml: 2, mr: 2 }} severity="error">
-      Please select {posts[currentPostIndex].limit} candidate(s)
-    </Alert>
-  )}
- 
+          ref={cardRef}
+          sx={{
+            maxWidth: 500,
+            margin: "0",
+            marginTop: isSmallDevice ? 2 : 6,
+            ml: isSmallDevice ? 3 : "auto",
+            mr: isSmallDevice ? 3 : "auto",
+            boxShadow : "0px 2px 4px black"
+          }}
+        >
+          <CardHeader  title={<Typography sx={{fontWeight:"bold"}}>Vote for {posts[currentPostIndex].name} </Typography>}/>
 
-  <CardContent>
-    <Grid container spacing={2}>
-      {filteredCandidates.map((candidate) => (
-        <Grid item xs={12} sm={6} md={4} key={candidate.id}>
-          <Card
-            onClick={() =>
-              handleCandidateClick(
-                candidate,
-                candidate.id,
-                posts[currentPostIndex].id
-              )
-            }
-            sx={{
-              cursor: "pointer",
-              backgroundColor:
-                casts.some((cast) => cast.candidate_id === candidate.id)
-                  ? "#e0e0e0" // Selected candidate color
-                  : "white",
-              opacity: showCard ? 1 : 0,
-              transition: "opacity 0.3s",
-              border:
-                casts.some((cast) => cast.candidate_id === candidate.id)
-                  ? "2px solid black" // Selected candidate border
-                  : "1px dotted black",
-              width: "100%",
-            }}
-          >
-            <CardContent>
-              <img
-                src={candidate.image}
-                alt={candidate.name}
-                style={{ width: "100%", borderRadius: "50%" }}
+          {casts.filter((item) => item.post_id === posts[currentPostIndex].id)
+            .length === posts[currentPostIndex].limit ? (
+             <>
+              <LinearProgress
+              sx={{
+                ml: 2,
+                mr: 2,
+                mb: 1,
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "#2e7d32",
+                },
+                backgroundColor: "#fff",
+              }}
+              variant="determinate"
+              value={
+                (casts.filter(
+                  (item) => item.post_id === posts[currentPostIndex].id
+                ).length /
+                  posts[currentPostIndex].limit) *
+                100
+              }
+            />
+           <Alert sx={{ ml: 2, mr: 2 }} severity="success">
+              {
+                casts.filter(
+                  (item) => item.post_id === posts[currentPostIndex].id
+                ).length
+              }{" "}
+              of {posts[currentPostIndex].limit} selected, Press Next
+            </Alert>
+            </>
+          ) : (
+            <>
+              <LinearProgress
+                sx={{
+                  ml: 2,
+                  mr: 2,
+                  mb: 1,
+                  "& .MuiLinearProgress-bar": {
+                    backgroundColor: "black",
+                  },
+                  backgroundColor: "#edebeb",
+                }}
+                variant="determinate"
+                value={
+                  (casts.filter(
+                    (item) => item.post_id === posts[currentPostIndex].id
+                  ).length /
+                    posts[currentPostIndex].limit) *
+                  100
+                }
               />
-              <Typography variant="body2" align="center">
-                {candidate.name}
-                {selectedCandidate?.id === candidate?.id && ( // Conditionally render tick mark
-                  <TbSignRightFilled
-                    style={{
-                      position: "absolute",
-                      top: 10,
-                      right: 10,
-                      color: "#fff",
+              <Alert
+                sx={{
+                  ml: 2,
+                  mr: 2,
+                  backgroundColor: "#edebeb",
+                  color: "#000",
+                  "& .MuiAlert-icon": {
+                    color: "#000",
+                  },
+                }}
+                severity="info"
+              >
+                {
+                  casts.filter(
+                    (item) => item.post_id === posts[currentPostIndex].id
+                  ).length
+                }{" "}
+                of {posts[currentPostIndex].limit} selected
+              </Alert>
+            </>
+          )}
+
+          <CardContent>
+            <Grid container spacing={2}>
+              {filteredCandidates.map((candidate) => (
+                <Grid item xs={12} sm={6} md={4} key={candidate.id}>
+                  <Card
+                    onClick={() =>
+                      handleCandidateClick(
+                        candidate,
+                        candidate.id,
+                        posts[currentPostIndex].id
+                      )
+                    }
+                    sx={{
+                      cursor: "pointer",
+                      backgroundColor: casts.some((cast) => cast.candidate_id === candidate.id)
+                        ? "#e0e0e0" // Selected candidate color
+                        : "white",
+                      opacity: showCard ? 1 : 0,
+                      transition: "opacity 0.3s",
+                      border:
+                        !(casts.filter((item) => (item.post_id === posts[currentPostIndex].id))
+                          .length === posts[currentPostIndex].limit )
+                          ? casts.some((cast) => cast.candidate_id === candidate.id)
+                            ? "2px solid black" // Selected candidate border
+                            : "1px dotted black"
+                          : casts.some((cast) => cast.candidate_id === candidate.id) ? "2px solid green" : "1px dotted black",
+                      width: "100%",
                     }}
-                  />
-                )}
-              </Typography>
-            </CardContent>
-          </Card>
-        
-  
+                    
+                  >
+                    <CardContent>
+                      <img
+                        src={candidate.image}
+                        alt={candidate.name}
+                        style={{ width: "100%", borderRadius: "50%" }}
+                      />
+                      <Typography variant="body2" align="center">
+                        {candidate.name}
+                        {selectedCandidate?.id === candidate?.id && ( // Conditionally render tick mark
+                          <TbSignRightFilled
+                            style={{
+                              position: "absolute",
+                              top: 10,
+                              right: 10,
+                              color: "#fff",
+                            }}
+                          />
+                        )}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 </Grid>
               ))}
             </Grid>
@@ -268,7 +337,13 @@ const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
               {!isLastPost ? (
                 <Button
                   variant="contained"
-                  disabled={!(casts.length >= currentPostIndex + 1)}
+                  disabled={
+                    !(
+                      casts.filter(
+                        (item) => item.post_id === posts[currentPostIndex].id
+                      ).length === posts[currentPostIndex].limit
+                    )
+                  }
                   onClick={handleNext}
                   sx={{
                     backgroundColor: "#000",
@@ -284,8 +359,13 @@ const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
                 <Button
                   variant="contained"
                   onClick={handleReviewAndSubmit}
-                
-                  disabled={!(casts.length === 7)}
+                  disabled={
+                    !(
+                      casts.filter(
+                        (item) => item.post_id === posts[currentPostIndex].id
+                      ).length === posts[currentPostIndex].limit
+                    )
+                  }
                   sx={{
                     backgroundColor: "#000",
                     "&:hover": {
@@ -310,7 +390,12 @@ const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
             marginRight: isSmallDevice ? 20 : "auto",
           }}
         >
-          <Typography variant="h4" sx={{fontWeight:'bold', marginBottom:"-20px"}}>REVIEW</Typography>
+          <Typography
+            variant="h4"
+            sx={{ fontWeight: "bold", marginBottom: "-20px" }}
+          >
+            REVIEW
+          </Typography>
           <TableContainer
             elevation={0}
             sx={{
@@ -323,45 +408,47 @@ const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
             component={Paper}
           >
             <Grid container spacing={2}>
-           
-   
-   {sortedCasts.map((cast, index) => (
-    <Grid item xs={12} sm={6} md={4} key={index}>
-      <Card
-        sx={{
-          maxWidth: 300,
-          margin: "0",
-          marginTop: isSmallDevice ? 2 : 6,
-          ml: isSmallDevice ? 2 : "auto",
-          mr: isSmallDevice ? 3 : "auto",
-        }}
-      >
-      
-        <CardContent>
-          <Typography variant="h6" sx={{ marginBottom: 2 }}>
-            Post: {getPostNameByPostID(cast.post_id)}
-          </Typography>
-          <Typography variant="body2" sx={{ marginBottom: 2 }}>
-            Your selected candidate: {getNameByCandidateID(cast.candidate_id)}
-          </Typography>
-          <div
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              src={getImageByCandidateID(cast.candidate_id)}
-              alt={getNameByCandidateID(cast.candidate_id)}
-              style={{ width: "150px", height: "150px", borderRadius: "50%" }}
-            />
-          </div>
-        </CardContent>
-      </Card>
-    </Grid>
-  ))}
-</Grid>
+              {sortedCasts.map((cast, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card
+                    sx={{
+                      maxWidth: 300,
+                      margin: "0",
+                      marginTop: isSmallDevice ? 2 : 6,
+                      ml: isSmallDevice ? 2 : "auto",
+                      mr: isSmallDevice ? 3 : "auto",
+                    }}
+                  >
+                    <CardContent>
+                      <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                        Post: {getPostNameByPostID(cast.post_id)}
+                      </Typography>
+                      <Typography variant="body2" sx={{ marginBottom: 2 }}>
+                        Your selected candidate:{" "}
+                        {getNameByCandidateID(cast.candidate_id)}
+                      </Typography>
+                      <div
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img
+                          src={getImageByCandidateID(cast.candidate_id)}
+                          alt={getNameByCandidateID(cast.candidate_id)}
+                          style={{
+                            width: "150px",
+                            height: "150px",
+                            borderRadius: "50%",
+                          }}
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
 
             <div
               style={{
@@ -369,7 +456,7 @@ const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
                 textAlign: "center",
                 display: "flex",
                 justifyContent: "space-between",
-                backgroundColor:"none"
+                backgroundColor: "none",
               }}
             >
               <Button
