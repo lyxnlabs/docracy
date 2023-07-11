@@ -4,6 +4,8 @@ import InstructionsDialog from "./InstructionsDialog";
 import FAQDialog from "./FAQDialog";
 import ContactDialog from "./ContactDialog";
 import Swal from "sweetalert2";
+import Snackbar from '@mui/material/Snackbar';
+import { Alert } from "@mui/material";
 
 export default function VoteDialogDispatcher(props) {
   const [dispatcher, setDispatcher] = useState(0);
@@ -51,7 +53,11 @@ export default function VoteDialogDispatcher(props) {
     <div>
       {dispatcher === 1 ? (
         votedInfo?.result ? (
-          votedAlert()
+          <Snackbar open={votedInfo?.result} autoHideDuration={6000} >
+              <Alert  severity="error" sx={{ width: '100%' }}>
+                You have already casted your votes!
+              </Alert>
+          </Snackbar>
         ) : (
           <VoteDialog dispatcher={dispatcher} setDispatcher={setDispatcher} />
         )

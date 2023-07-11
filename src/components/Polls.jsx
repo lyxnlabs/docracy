@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -18,6 +18,7 @@ import {
   Backdrop,
   CircularProgress,
   LinearProgress,
+  Snackbar,
 } from "@mui/material";
 import avatar1 from "../assets/img/avatars/avatar1.png";
 import avatar2 from "../assets/img/avatars/avatar2.png";
@@ -28,18 +29,33 @@ import avatar6 from "../assets/img/avatars/avatar6.png";
 import avatar7 from "../assets/img/avatars/avatar7.png";
 import avatar8 from "../assets/img/avatars/avatar8.png";
 import avatar9 from "../assets/img/avatars/avatar9.png";
+import avatar10 from "../assets/img/avatars/avatar9.png";
+import avatar11 from "../assets/img/avatars/avatar9.png";
+import Swal from "sweetalert2";
+
 
 import { TbSignRightFilled } from "react-icons/tb";
+import axios from "axios";
 const posts = [
-  // Example candidate data
   { id: 1, name: "Honorary Joint Treasurer", limit: 1 },
   { id: 2, name: "Executive Council Member - Clinician ", limit: 4 },
   { id: 3, name: "Executive Council Member - Embryologist", limit: 2 },
-
-  // ... add more candidates
 ];
 
-const candidates = [
+const imagesList = [
+  avatar1,
+  avatar2,
+  avatar3,
+  avatar4,
+  avatar5,
+  avatar6,
+  avatar7,
+  avatar8,
+  avatar9,
+  avatar10,
+  avatar11,
+];
+const icandidates = [
   { id: 1, name: "Candidate 1", image: avatar1, postId: 1 }, // Assign postId to candidates
   { id: 2, name: "Candidate 2", image: avatar2, postId: 1 },
   { id: 3, name: "Candidate 3", image: avatar3, postId: 2 },
@@ -55,7 +71,33 @@ const candidates = [
   // ... add more candidates
 ];
 
-const Polls = () => {
+const Polls = (PollsData) => {
+  useEffect(() => {
+    // Retrieve the token from local storage or state
+    const token = localStorage.getItem("token");
+
+    fetch("https://kisargo.ml/api/getCandidates", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        const updatedCandidates = data.map((item, i) => ({
+          id: item.candidate_id,
+          name: item.first_name + " " + item.last_name,
+          image: imagesList[i],
+          postId: item.post_id,
+        }));
+        setCandidates([...updatedCandidates]);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch candidates", error);
+      });
+  }, []);
+
+  const [candidates, setCandidates] = useState([]);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [currentPostIndex, setCurrentPostIndex] = useState(0);
   const [showCard, setShowCard] = useState(true);
@@ -64,6 +106,20 @@ const Polls = () => {
   const [submitted, setSubmitted] = useState(false);
   const sortedCasts = [...casts].sort((a, b) => a.post_id - b.post_id);
   const [reviewClicked, setReviewClicked] = useState(false);
+  const [votedInfo, setvotedInfo] = useState({});
+
+  const [showCompleted, setShowCompleted] = useState(false);
+  
+  const submittedAlert = () => {
+    Swal.fire({
+      text : "Your votes were successfully submitted",
+      icon: "success",
+    });
+  };
+
+  const handleCloseCompleted = ()=>{
+    setShowCompleted(false);
+  }
   const handleCandidateClick = (candidate, candidate_id, post_id) => {
     const selectedCandidatesForPost = casts.filter(
       (cast) => cast.post_id === post_id
@@ -104,6 +160,30 @@ const Polls = () => {
       }
     }
   };
+  useEffect(() => {
+    // Retrieve the token from local storage or state
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      // Verify the token on subsequent logins
+      fetch("https://kisargo.ml/api/checkIfUserVoted", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if(data.result){
+           
+          }
+        })
+        .catch((error) => {
+          console.error("Token verification failed:", error);
+        });
+    } else {
+      window.location.href = "/";
+    }
+  }, [submitted]);
 
   const cardRef = useRef(null); // Ref for the Card component
 
@@ -163,9 +243,25 @@ const Polls = () => {
 
   const handleSubmit = () => {
     setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 3000);
+    const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: "https://api.example.com",
+    });
+    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axiosInstance.post(
+      "https://kisargo.ml/api/submitVotes",
+      JSON.stringify(casts)
+    )
+    .then((response)=>{
+      if(response.data.success){
+        setSubmitted(false);
+        setShowCompleted(true);
+        setTimeout(() => {
+          window.location.href = "/"
+        }, 1000);
+      } 
+      else alert("Error")
+    })
   };
 
   return (
@@ -179,41 +275,50 @@ const Polls = () => {
             marginTop: isSmallDevice ? 2 : 6,
             ml: isSmallDevice ? 3 : "auto",
             mr: isSmallDevice ? 3 : "auto",
-            boxShadow : "0px 2px 4px black"
+            boxShadow: "0px 2px 4px black",
           }}
         >
-          <CardHeader  title={<Typography sx={{fontWeight:"bold"}}>Vote for {posts[currentPostIndex].name} </Typography>}/>
+          <CardHeader
+            title={
+              <Typography sx={{ fontWeight: "bold" }}>
+                Vote for {posts[currentPostIndex].name}{" "}
+              </Typography>
+            }
+          />
+          <Typography sx={{ ml: 2, mb: 2 }}>
+            Click on any image to select or unselect it
+          </Typography>
 
           {casts.filter((item) => item.post_id === posts[currentPostIndex].id)
             .length === posts[currentPostIndex].limit ? (
-             <>
+            <>
               <LinearProgress
-              sx={{
-                ml: 2,
-                mr: 2,
-                mb: 1,
-                "& .MuiLinearProgress-bar": {
-                  backgroundColor: "#2e7d32",
-                },
-                backgroundColor: "#fff",
-              }}
-              variant="determinate"
-              value={
-                (casts.filter(
-                  (item) => item.post_id === posts[currentPostIndex].id
-                ).length /
-                  posts[currentPostIndex].limit) *
-                100
-              }
-            />
-           <Alert sx={{ ml: 2, mr: 2 }} severity="success">
-              {
-                casts.filter(
-                  (item) => item.post_id === posts[currentPostIndex].id
-                ).length
-              }{" "}
-              of {posts[currentPostIndex].limit} selected, Press Next
-            </Alert>
+                sx={{
+                  ml: 2,
+                  mr: 2,
+                  mb: 1,
+                  "& .MuiLinearProgress-bar": {
+                    backgroundColor: "#2e7d32",
+                  },
+                  backgroundColor: "#fff",
+                }}
+                variant="determinate"
+                value={
+                  (casts.filter(
+                    (item) => item.post_id === posts[currentPostIndex].id
+                  ).length /
+                    posts[currentPostIndex].limit) *
+                  100
+                }
+              />
+              <Alert sx={{ ml: 2, mr: 2 }} severity="success">
+                {
+                  casts.filter(
+                    (item) => item.post_id === posts[currentPostIndex].id
+                  ).length
+                }{" "}
+                of {posts[currentPostIndex].limit} selected, Press Next
+              </Alert>
             </>
           ) : (
             <>
@@ -272,21 +377,30 @@ const Polls = () => {
                     }
                     sx={{
                       cursor: "pointer",
-                      backgroundColor: casts.some((cast) => cast.candidate_id === candidate.id)
+                      backgroundColor: casts.some(
+                        (cast) => cast.candidate_id === candidate.id
+                      )
                         ? "#e0e0e0" // Selected candidate color
                         : "white",
                       opacity: showCard ? 1 : 0,
                       transition: "opacity 0.3s",
-                      border:
-                        !(casts.filter((item) => (item.post_id === posts[currentPostIndex].id))
-                          .length === posts[currentPostIndex].limit )
-                          ? casts.some((cast) => cast.candidate_id === candidate.id)
-                            ? "2px solid black" // Selected candidate border
-                            : "1px dotted black"
-                          : casts.some((cast) => cast.candidate_id === candidate.id) ? "2px solid green" : "1px dotted black",
+                      border: !(
+                        casts.filter(
+                          (item) => item.post_id === posts[currentPostIndex].id
+                        ).length === posts[currentPostIndex].limit
+                      )
+                        ? casts.some(
+                            (cast) => cast.candidate_id === candidate.id
+                          )
+                          ? "2px solid black" // Selected candidate border
+                          : "1px dotted black"
+                        : casts.some(
+                            (cast) => cast.candidate_id === candidate.id
+                          )
+                        ? "2px solid green"
+                        : "1px dotted black",
                       width: "100%",
                     }}
-                    
                   >
                     <CardContent>
                       <img
@@ -330,6 +444,7 @@ const Polls = () => {
                     backgroundColor: "#000",
                     color: "#fff",
                   },
+                  m: isSmallDevice ? 2 : 0,
                 }}
               >
                 Back
@@ -351,6 +466,7 @@ const Polls = () => {
                       backgroundColor: "#000",
                       color: "#fff",
                     },
+                    m: isSmallDevice ? 2 : 0,
                   }}
                 >
                   Next
@@ -372,9 +488,10 @@ const Polls = () => {
                       backgroundColor: "#000",
                       color: "#fff",
                     },
+                    m: isSmallDevice ? 2 : 0,
                   }}
                 >
-                  Review and Submit
+                  proceed
                 </Button>
               )}
             </div>
@@ -417,15 +534,15 @@ const Polls = () => {
                       marginTop: isSmallDevice ? 2 : 6,
                       ml: isSmallDevice ? 2 : "auto",
                       mr: isSmallDevice ? 3 : "auto",
+                      boxShadow: "0px 2px 4px black",
                     }}
                   >
                     <CardContent>
                       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-                        Post: {getPostNameByPostID(cast.post_id)}
+                        {getPostNameByPostID(cast.post_id)}
                       </Typography>
                       <Typography variant="body2" sx={{ marginBottom: 2 }}>
-                        Your selected candidate:{" "}
-                        {getNameByCandidateID(cast.candidate_id)}
+                        You selected {getNameByCandidateID(cast.candidate_id)}
                       </Typography>
                       <div
                         sx={{
@@ -471,7 +588,7 @@ const Polls = () => {
                   },
                 }}
               >
-                Go back
+                {"< alter choices"}
               </Button>
               <Button
                 variant="filled"
@@ -495,6 +612,11 @@ const Polls = () => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
+          <Snackbar open={showCompleted} autoHideDuration={6000} onClose={handleCloseCompleted}>
+            <Alert onClose={handleCloseCompleted} severity="success" sx={{ width: '100%' }}>
+              Your votes were successfully submitted
+            </Alert>
+          </Snackbar>
         </div>
       )}
     </>

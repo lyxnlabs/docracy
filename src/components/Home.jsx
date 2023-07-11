@@ -38,11 +38,11 @@ import ElectionInfo from "./ElectionInfo";
 
 const Home = () => {
   const [userData, setData] = useState([]);
-
+  const [swalFired, setSwalFired] = useState(false);
   useEffect(() => {
     // Retrieve the token from local storage or state
     const token = localStorage.getItem("token");
-
+    
     if (token) {
       // Verify the token on subsequent logins
       fetch("https://kisargo.ml/api/verify-token", {
@@ -123,7 +123,7 @@ const Home = () => {
       title: "Executive council Member - Embryologist",
       description: "Positions avaiable : 2",
       background: "#f2f2f2",
-     candidate: "Total candidates : 6",
+      candidate: "Total candidates : 6",
     },
     {
       title: "Executive council Member - Clinician",
@@ -135,8 +135,8 @@ const Home = () => {
       title: "Honorary Joint Secretary",
       description: "Positions avaiable : 1",
       background: "#f2f2f2",
-      candidate: "Total candidates : 6",
-    }
+      candidate: "Total candidates : 2",
+    },
   ];
 
   const boxData = [
@@ -302,10 +302,10 @@ const Home = () => {
         </Paper>
       </Grid>
       <Grid item xs={isSmallDevice ? 12 : 10}>
-        <Paper elevation={0}
+        <Paper
+          elevation={0}
           className="header"
           sx={{
-            
             display: "flex",
             flexDirection: isSmallDevice ? "column" : "row",
             alignItems: isSmallDevice ? "center" : "flex-start",
@@ -339,7 +339,10 @@ const Home = () => {
             )}
           </div>
           <div style={{ display: "flex" }}>
-            <div className="search" style={{ marginTop: 10 , backgroundColor:"#e6e6e6"}}>
+            <div
+              className="search"
+              style={{ marginTop: 10, backgroundColor: "#e6e6e6" }}
+            >
               <InputBase
                 placeholder="Search"
                 value={searchQuery}
@@ -408,7 +411,7 @@ const Home = () => {
 
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Grid container spacing={3} className="boxes" >
+            <Grid container spacing={3} className="boxes">
               {boxData.map((box, index) => (
                 <Grid key={index} item xs={12} md={3}>
                   <a
@@ -416,6 +419,7 @@ const Home = () => {
                     onClick={() => {
                       setCurrentActionID(box.id);
                       setDispatchCount(dispatchCount++);
+                      if(index ===1) setSwalFired(true);
                     }}
                   >
                     <Paper
@@ -433,6 +437,7 @@ const Home = () => {
                         open={box.id === currentActionID}
                         id={currentActionID}
                         dispatchCount={dispatchCount}
+                        swalFired={swalFired}
                       />
                       <img
                         src={box.icon}
@@ -451,26 +456,33 @@ const Home = () => {
               ))}
             </Grid>
           </Grid>
-        
-         
-          <Grid item xs={12} >
+
+          <Grid item xs={12}>
             <Typography
               variant="h5"
-           elevation={2}
+              elevation={2}
               marginBottom={-5}
-              
               marginTop={0}
-              sx={{ padding:"20px", paddingLeft:"35px"}}
+              sx={{ padding: "20px", paddingLeft: "35px" }}
             >
-             <b>General Elections </b>
-              <ElectionInfo/>
-            
-               <br/>
+              <b>KISAR Elections </b>
+              <ElectionInfo />
+
+              <br />
             </Typography>
-            
           </Grid>
-       
-          <Grid item xs={12} className="carousel" sx={{color:'black'}}>
+          <Grid item xs={12}>
+                <Typography
+                  variant="h5"
+                  elevation={2}
+                  marginBottom={-5}
+                  marginTop={0}
+                  sx={{ml : 5, mt:2}}
+                >
+                  <b>Open Posts </b>
+                </Typography>
+              </Grid>
+          <Grid item xs={12} className="carousel" sx={{ color: "black" }}>
             <Carousel
               selectedItem={currentSlide}
               autoScroll={true}
@@ -522,6 +534,7 @@ const Home = () => {
                 )
               }
             >
+
               {campaignData.map((campaign, index) => (
                 <div
                   key={index}
@@ -531,16 +544,22 @@ const Home = () => {
                     textAlign: "left",
                     backgroundColor: campaign.background,
                     margin: "30px",
-                    height: "300px",
+                    height: "250px",
                     padding: "30px",
                     color: campaign.color,
+                    boxShadow: "0px 2px 4px black",
                   }}
                 >
-                  <h2 style={{fontSize:"24px", marginBottom:"30px"}} className="campaign-title">{campaign.title}</h2>
-                
-                  <p style={{fontSize:"20px"}}>{campaign.description}</p>
-                 
-                  <p style={{fontSize:"20px"}}>{campaign.candidate}</p>
+                  <Typography
+                    style={{ fontSize: "20px", marginBottom: "30px" }}
+                    className="campaign-title"
+                  >
+                    {campaign.title}
+                  </Typography>
+
+                  <Typography style={{ fontSize: "16px" }}>{campaign.description}</Typography>
+
+                  <Typography style={{ fontSize: "16px" }}>{campaign.candidate}</Typography>
                 </div>
               ))}
             </Carousel>

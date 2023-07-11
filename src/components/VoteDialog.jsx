@@ -8,10 +8,14 @@ export default function VoteDialog(props) {
   const handleClose = () => {
     props.setDispatcher(0);
   };
+  const [childPollsData, setChildPollsData] = useState({});
   useEffect(() => {
     if (props.dispatcher) setDispatcherID(props.dispatcher);
   }, [props.dispatcher]);
 
+  const getPollsData = (pollsData) =>{
+    setChildPollsData(pollsData);
+  }
   return (
     <Dialog
       fullScreen
@@ -34,13 +38,10 @@ export default function VoteDialog(props) {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Cast your votes
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button>
           </Toolbar>
         </AppBar>
         <DialogContent >
-        <Polls/>
+        <Polls PollsData = {getPollsData}/>
         </DialogContent>
     </Dialog>
   );
