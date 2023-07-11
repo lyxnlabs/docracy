@@ -116,7 +116,7 @@ const SignInPage = () => {
   };
 
   const isValidPassword = (password) => {
-    const passwordRegex = /^\d{2}-\d{2}-\d{4}$/;
+    const passwordRegex = /^\d{3}-\d{4}$/;
     return passwordRegex.test(password);
   };
 
