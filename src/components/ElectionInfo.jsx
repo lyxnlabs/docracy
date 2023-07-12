@@ -196,7 +196,7 @@ export default function ElectionInfo() {
       )}
       {votedInfo?.result && (
             <>
-              <CardActions sx={{ margin: 2, marginTop: 0 }}>
+              {/* <CardActions sx={{ margin: 2, marginTop: 0 }}>
                 <Button
                   variant="filled"
                   size="small"
@@ -213,7 +213,7 @@ export default function ElectionInfo() {
                 >
                   VIEW YOUR VOTES
                 </Button>
-              </CardActions>
+              </CardActions> */}
             </>
           )}
     </Card>
