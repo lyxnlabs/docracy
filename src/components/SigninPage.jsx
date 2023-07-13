@@ -6,7 +6,9 @@ import Typography from "@mui/material/Typography";
 import { Alert, Backdrop, CircularProgress } from "@mui/material";
 import { UserContext } from "../contexts/UserContext";
 import OTPForm from "./OTPForm";
-
+import LoginIcon from "@mui/icons-material/Login";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { Link } from "react-router-dom";
 const SignInPage = () => {
   const [openOTPForm, setOpenOTPForm] = useState(false);
   // useEffect(() => {
@@ -130,8 +132,15 @@ const SignInPage = () => {
       <Typography variant="h4" gutterBottom fontWeight="bold" sx={{ mt: 6 }}>
         Sign In
       </Typography>
+      <Typography gutterBottom fontWeight="bold">
+        <LoginIcon sx={{ fontSize: "30px" }} />
+      </Typography>
+
       <Typography variant="h5" gutterBottom>
-        into Docracy
+        Docracy
+      </Typography>
+      <Typography variant="h5" gutterBottom>
+        E-Voting App for KISAR
       </Typography>
       <Box
         component="form"
@@ -210,6 +219,26 @@ const SignInPage = () => {
         >
           Sign In
         </Button>
+                {/* Please note section */}
+                <Typography variant="subtitle1" sx={{ mt: 3, textAlign: "center" }}>
+          Please note:
+        </Typography>
+        <Typography variant="body2" sx={{ mt: 1 }}>
+          <ul>
+            <li>
+              You must be registered with KISAR as a member to log in to this app.
+            </li>
+            <li>
+              Use your registered phone number or email; any other credentials will not work.
+            </li>
+            <li>
+              If you think you are registered and unable to log in, please contact KISAR.
+            </li>
+            <li>
+              Phone numbers must be entered in 10 digits, do not enter country code(+91)
+            </li>
+          </ul>
+        </Typography>
       </Box>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -218,7 +247,13 @@ const SignInPage = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <OTPForm open={openOTPForm} setOpenOTPForm={setOpenOTPForm} identifierType={identifierType} identifier={formData.identifier}/>
+      <OTPForm
+        open={openOTPForm}
+        setOpenOTPForm={setOpenOTPForm}
+        identifierType={identifierType}
+        identifier={formData.identifier}
+      />
+
     </Box>
   );
 };
