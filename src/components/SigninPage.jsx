@@ -11,32 +11,37 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
 const SignInPage = () => {
   const [openOTPForm, setOpenOTPForm] = useState(false);
-  // useEffect(() => {
-  //   // Retrieve the token from local storage or state
-  //   const token = localStorage.getItem("token");
+  useEffect(() => {
+    setOpenBackdrop(true);
+    // Retrieve the token from local storage or state
+    const token = localStorage.getItem("token");
 
-  //   if (token) {
-  //     // Verify the token on subsequent logins
-  //     fetch("https://kisargo.ml/api/verify-token", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //       .then((response) => {
-  //         console.log(response);
-  //         if (response.ok) {
-  //           //window.location.href="/home";
-  //         } else {
-  //           console.log("Token is invalid");
-  //           // Token is invalid or expired
-  //           localStorage.removeItem("token");
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error("Token verification failed:", error);
-  //       });
-  //   }
-  // }, []);
+    if (token) {
+      // Verify the token on subsequent logins
+      fetch("https://kisargo.ml/api/verify-token", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          if (response.ok) {
+          window.location.href="/home";
+          } else {
+            console.log("Token is invalid");
+            // Token is invalid or expired
+            localStorage.removeItem("token");
+            setOpenBackdrop(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Token verification failed:", error);
+        });
+    }
+    else {
+      setOpenBackdrop(false);
+    }
+  }, []);
 
   const [formData, setFormData] = useState({
     identifier: "",
@@ -253,7 +258,12 @@ const SignInPage = () => {
         identifierType={identifierType}
         identifier={formData.identifier}
       />
-
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 };

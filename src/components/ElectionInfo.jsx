@@ -128,7 +128,7 @@ export default function ElectionInfo() {
           gutterBottom
         >
           {electionData?.isLive ? (
-            <Alert severity="success">Election XYZ is live</Alert>
+            <Alert severity="success">KISAR Election is live</Alert>
           ) : (
             <>
               <Alert severity="error">No election is live</Alert>
