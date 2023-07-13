@@ -5,119 +5,116 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Alert, Backdrop, CircularProgress } from "@mui/material";
 import { UserContext } from "../contexts/UserContext";
+import OTPForm from "./OTPForm";
 
 const SignInPage = () => {
-  useEffect(() => {
-    // Retrieve the token from local storage or state
-    const token = localStorage.getItem('token');
+  const [openOTPForm, setOpenOTPForm] = useState(false);
+  // useEffect(() => {
+  //   // Retrieve the token from local storage or state
+  //   const token = localStorage.getItem("token");
 
-    if (token) {
-      // Verify the token on subsequent logins
-      fetch('https://kisargo.ml/api/verify-token', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          console.log(response);
-          if (response.ok) {
-            window.location.href="/home";
-          }
-          else {
-            console.log("Token is invalid");
-            // Token is invalid or expired
-            localStorage.removeItem('token');
-            
-          } 
-        })
-        .catch((error) => {
-          console.error('Token verification failed:', error);
-        });
-    }
-    
-  }, []);
-  
-  
+  //   if (token) {
+  //     // Verify the token on subsequent logins
+  //     fetch("https://kisargo.ml/api/verify-token", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //       .then((response) => {
+  //         console.log(response);
+  //         if (response.ok) {
+  //           //window.location.href="/home";
+  //         } else {
+  //           console.log("Token is invalid");
+  //           // Token is invalid or expired
+  //           localStorage.removeItem("token");
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error("Token verification failed:", error);
+  //       });
+  //   }
+  // }, []);
+
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    identifier: "",
   });
   const { login, isLoggedIn, logout } = useContext(UserContext);
 
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [identifierError, setIdentifierError] = useState(false);
+
+  const [identifierType, setIdentifierType] = useState("");
 
   const [openBackdrop, setOpenBackdrop] = useState(false);
 
   const [openWrongAlert, setWrongAlert] = useState(false);
 
-  const [openOTPForm, setOpenOTPForm] = useState(false);
-
   const handleCloseBackdrop = () => {
     setOpenBackdrop(false);
   };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (e.target.name === "email" && !isValidEmail(e.target.value)) {
-      setEmailError(true);
-      return;
+    setFormData({ identifier: e.target.value });
+    if (!isValidIdentifier(e.target.value)) {
+      setIdentifierError(true);
+    } else {
+      setIdentifierError(false);
     }
-    if (e.target.name === "password" && !isValidPassword(e.target.value)) {
-      setPasswordError(true);
-      return;
-    }
-    setEmailError(false);
-    setPasswordError(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isValidEmail(formData.email)) {
-      setEmailError(true);
-    }
-    if (!isValidPassword(formData.password)) {
-      setPasswordError(true);
+    if (!isValidIdentifier(formData.identifier)) {
+      setIdentifierError(true);
       return;
     }
-    setEmailError(false);
-    setPasswordError(false);
+    setIdentifierError(false);
     setOpenBackdrop(true);
     // Send login request to the server
-    const response = await fetch("https://kisargo.ml/api/login", {
+    const response = await fetch("https://kisargo.ml/api/checkIfUserExists", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: formData.email,
-        password: formData.password,
+        identifier: formData.identifier,
       }),
     });
     console.log(response);
-    const { token } = await response.json();
+    var { token, identifier_type } = await response.json();
     console.log(token);
+    console.log(typeof token);
     localStorage.setItem("token", token);
     if (response.ok) {
-      window.location.href = "/home";
-      setOpenBackdrop(false);
-      setWrongAlert(false);
-    } 
-    if(response.status === 401 || response.status === 500) {
+      setIdentifierType(identifier_type);
+      let URL =
+        identifier_type === "email"
+          ? "https://kisargo.ml/api/sendEmailOTP"
+          : "https://kisargo.ml/api/sendPhoneOTP";
+      const response_otp = await fetch(URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response_otp.ok) {
+        setOpenOTPForm(true);
+        setOpenBackdrop(false);
+        setWrongAlert(false);
+      }
+    } else if (response.status === 401 || response.status === 500) {
+      setOpenOTPForm(false);
       setWrongAlert(true);
       setOpenBackdrop(false);
     }
   };
 
-  const isValidEmail = (email) => {
-    // Simple email validation regex pattern
+  const isValidIdentifier = (identifier) => {
+    // Simple email and phone number validation regex patterns
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneRegex = /^[0-9]{10}$/;
 
-    return emailRegex.test(email);
-  };
-
-  const isValidPassword = (password) => {
-    const passwordRegex = /^\d{3}-\d{4}$/;
-    return passwordRegex.test(password);
+    return emailRegex.test(identifier) || phoneRegex.test(identifier);
   };
 
   return (
@@ -151,11 +148,11 @@ const SignInPage = () => {
         onSubmit={handleSubmit} // Call the handleSubmit function when the form is submitted
         InputLabelProps={{ style: { color: "black" } }}
       >
-        {openWrongAlert && 
-          <Alert severity="error" sx={{mb:2}}>
-            Email and password combination is wrong
+        {openWrongAlert && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            Sorry, You are not registered!
           </Alert>
-        }
+        )}
         <Typography
           variant="h6"
           fontWeight="bold"
@@ -163,7 +160,7 @@ const SignInPage = () => {
             "@media (max-width: 600px)": { fontSize: "1.2rem" },
           }}
         >
-          Email Address
+          Email Address or Phone Number
         </Typography>
         <TextField
           sx={{
@@ -180,54 +177,21 @@ const SignInPage = () => {
               },
             },
           }}
-          label="Email address"
+          label="Email address or phone number"
           variant="outlined"
           margin="normal"
-          type="email"
-          name="email"
-          value={formData.email}
+          type="text"
+          name="identifier"
+          value={formData.identifier}
           onChange={handleChange}
-          error={emailError}
-          helperText={emailError && "Please enter a valid email address"}
+          error={identifierError}
+          helperText={
+            identifierError &&
+            "Please enter a valid email address or phone number"
+          }
           InputLabelProps={{ style: { color: "black" } }}
         />
 
-        <Typography
-          variant="h6"
-          fontWeight="bold"
-          sx={{ mt: 2, "@media (max-width: 600px)": { fontSize: "1.2rem" } }}
-        >
-          Password
-        </Typography>
-        <TextField
-          sx={{
-            height: 50,
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "grey",
-              },
-              "&:hover fieldset": {
-                borderColor: "black",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "black",
-              },
-            },
-          }}
-          label="Password"
-          type="password"
-          variant="outlined"
-          margin="normal"
-          name="password" // Add name attribute to link to the corresponding property in formData
-          value={formData.password}
-          error={passwordError}
-          helperText={passwordError && "Invalid password format"}
-          onChange={handleChange} // Call the handleChange function when the input changes
-          InputLabelProps={{ style: { color: "black" } }}
-        />
-        <Typography sx={{ mt: 3, color: "gray" }}>
-          Your password is your date of birth in (DD-MM-YYYY) format
-        </Typography>
         <Button
           variant="contained"
           size="large"
@@ -254,6 +218,7 @@ const SignInPage = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <OTPForm open={openOTPForm} setOpenOTPForm={setOpenOTPForm} identifierType={identifierType} identifier={formData.identifier}/>
     </Box>
   );
 };

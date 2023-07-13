@@ -75,7 +75,7 @@ const Polls = (PollsData) => {
   useEffect(() => {
     // Retrieve the token from local storage or state
     const token = localStorage.getItem("token");
-
+    
     fetch("https://kisargo.ml/api/getCandidates", {
       headers: {
         Authorization: `Bearer ${token}`,
