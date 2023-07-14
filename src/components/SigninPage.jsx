@@ -9,6 +9,7 @@ import OTPForm from "./OTPForm";
 import LoginIcon from "@mui/icons-material/Login";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link } from "react-router-dom";
+import kisarLogo from "../assets/img/logo192.png";
 const SignInPage = () => {
   const [openOTPForm, setOpenOTPForm] = useState(false);
   useEffect(() => {
@@ -135,14 +136,17 @@ const SignInPage = () => {
       }}
     >
       <Typography variant="h4" gutterBottom fontWeight="bold" sx={{ mt: 6 }}>
-        Sign In
+        Sign In <LoginIcon sx={{ fontSize: "30px" }} />
       </Typography>
       <Typography gutterBottom fontWeight="bold">
-        <LoginIcon sx={{ fontSize: "30px" }} />
+        
       </Typography>
 
       <Typography variant="h5" gutterBottom>
         Docracy
+      </Typography>
+      <Typography variant="h5" gutterBottom>
+        <img src={kisarLogo} width = {60} height = {60}/>
       </Typography>
       <Typography variant="h5" gutterBottom>
         E-Voting App for KISAR

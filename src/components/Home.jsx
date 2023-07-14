@@ -27,7 +27,7 @@ import icon3 from "../assets/img/conversation.png";
 import icon4 from "../assets/img/phone-call.png";
 import { SiAsciidoctor } from "react-icons/si";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
-
+import kisarLogo from "../assets/img/logo192.png";
 import logouticon from "../assets/img/log-out.png";
 import pollingicon from "../assets/img/polling.png";
 import { FaPoll } from "react-icons/fa";
@@ -325,7 +325,7 @@ const Home = () => {
                 alignItems="center"
               >
                 <Grid item sx={{ fontSize: "32px", margin: "10px", mt: 2 }}>
-                  <SiAsciidoctor />
+                <img src={kisarLogo} width = {60} height = {60} alt={"KISAR LOGO"}/>
                 </Grid>
                 <Grid item>
                   <Typography
