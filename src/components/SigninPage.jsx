@@ -146,7 +146,7 @@ const SignInPage = () => {
         Docracy
       </Typography>
       <Typography variant="h5" gutterBottom>
-        <img src={kisarLogo} width = {60} height = {60}/>
+        <img src={kisarLogo} width = {65} height = {65}/>
       </Typography>
       <Typography variant="h5" gutterBottom>
         E-Voting App for KISAR
@@ -229,19 +229,19 @@ const SignInPage = () => {
           Sign In
         </Button>
                 {/* Please note section */}
-                <Typography variant="subtitle1" sx={{ mt: 3, textAlign: "center" }}>
+                <Typography variant="subtitle1" sx={{ mt: 3, textAlign: "left" }}>
           Please note:
         </Typography>
-        <Typography variant="body2" sx={{ mt: 1 }}>
+        <Typography variant="body2" sx={{ mt: 1, textAlign: "left" }}>
           <ul>
             <li>
-              You must be registered with KISAR as a member to log in to this app.
+              You must be a <b>KISAR</b> member to log in to this app.
             </li>
             <li>
               Use your registered phone number or email; any other credentials will not work.
             </li>
             <li>
-              If you think you are registered and unable to log in, please contact KISAR.
+              If you think you are registered and unable to log in, please contact <b>KISAR</b>.
             </li>
             <li>
               Phone numbers must be entered in 10 digits, do not enter country code(+91)
