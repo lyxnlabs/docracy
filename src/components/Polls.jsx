@@ -20,19 +20,27 @@ import {
   LinearProgress,
   Snackbar,
 } from "@mui/material";
-import avatar1 from "../assets/img/avatars/avatar1.png";
-import avatar2 from "../assets/img/avatars/avatar2.png";
-import avatar3 from "../assets/img/avatars/avatar3.png";
-import avatar4 from "../assets/img/avatars/avatar4.png";
-import avatar5 from "../assets/img/avatars/avatar5.png";
-import avatar6 from "../assets/img/avatars/avatar6.png";
-import avatar7 from "../assets/img/avatars/avatar7.png";
-import avatar8 from "../assets/img/avatars/avatar8.png";
-import avatar9 from "../assets/img/avatars/avatar9.png";
-import avatar10 from "../assets/img/avatars/avatar9.png";
-import avatar11 from "../assets/img/avatars/avatar9.png";
-import Swal from "sweetalert2";
+import avatar1 from "../assets/img/f_avatars/f_avatar1.jpeg";
+import avatar2 from "../assets/img/f_avatars/f_avatar2.jpeg";
+import avatar3 from "../assets/img/f_avatars/f_avatar3.jpeg";
+import avatar4 from "../assets/img/f_avatars/f_avatar4.jpeg";
+import avatar5 from "../assets/img/f_avatars/f_avatar5.png";
+import avatar6 from "../assets/img/f_avatars/f_avatar6.png";
+import avatar7 from "../assets/img/f_avatars/f_avatar7.png";
+import avatar8 from "../assets/img/f_avatars/f_avatar8.png";
+import avatar9 from "../assets/img/f_avatars/f_avatar9.png";
+import avatar10 from "../assets/img/f_avatars/f_avatar10.jpg";
+import avatar11 from "../assets/img/f_avatars/f_avatar11.jpg";
+import avatar12 from "../assets/img/f_avatars/f_avatar12.jpg";
+import avatar13 from "../assets/img/f_avatars/f_avatar13.jpg";
+import avatar14 from "../assets/img/f_avatars/f_avatar14.jpg";
+import avatar15 from "../assets/img/f_avatars/f_avatar15.jpg";
+import avatar16 from "../assets/img/f_avatars/f_avatar16.jpg";
+import avatar17 from "../assets/img/f_avatars/f_avatar17.jpg";
+import avatar18 from "../assets/img/f_avatars/f_avatar18.jpg";
+import avatar19 from "../assets/img/f_avatars/f_avatar19.jpg";
 
+import Swal from "sweetalert2";
 
 import { TbSignRightFilled } from "react-icons/tb";
 import axios from "axios";
@@ -54,6 +62,14 @@ const imagesList = [
   avatar9,
   avatar10,
   avatar11,
+  avatar12,
+  avatar13,
+  avatar14,
+  avatar15,
+  avatar16,
+  avatar17,
+  avatar18,
+  avatar19,
 ];
 const icandidates = [
   { id: 1, name: "Candidate 1", image: avatar1, postId: 1 }, // Assign postId to candidates
@@ -75,7 +91,7 @@ const Polls = (PollsData) => {
   useEffect(() => {
     // Retrieve the token from local storage or state
     const token = localStorage.getItem("token");
-    
+
     fetch("https://kisargo.ml/api/getCandidates", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -109,17 +125,17 @@ const Polls = (PollsData) => {
   const [votedInfo, setvotedInfo] = useState({});
 
   const [showCompleted, setShowCompleted] = useState(false);
-  
+
   const submittedAlert = () => {
     Swal.fire({
-      text : "Your votes were successfully submitted",
+      text: "Your votes were successfully submitted",
       icon: "success",
     });
   };
 
-  const handleCloseCompleted = ()=>{
+  const handleCloseCompleted = () => {
     setShowCompleted(false);
-  }
+  };
   const handleCandidateClick = (candidate, candidate_id, post_id) => {
     const selectedCandidatesForPost = casts.filter(
       (cast) => cast.post_id === post_id
@@ -173,8 +189,7 @@ const Polls = (PollsData) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          if(data.result){
-           
+          if (data.result) {
           }
         })
         .catch((error) => {
@@ -248,20 +263,17 @@ const Polls = (PollsData) => {
       baseURL: "https://api.example.com",
     });
     axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    axiosInstance.post(
-      "https://kisargo.ml/api/submitVotes",
-      JSON.stringify(casts)
-    )
-    .then((response)=>{
-      if(response.data.success){
-        setSubmitted(false);
-        setShowCompleted(true);
-        setTimeout(() => {
-          window.location.href = "/"
-        }, 1000);
-      } 
-      else alert("Error")
-    })
+    axiosInstance
+      .post("https://kisargo.ml/api/submitVotes", JSON.stringify(casts))
+      .then((response) => {
+        if (response.data.success) {
+          setSubmitted(false);
+          setShowCompleted(true);
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1000);
+        } else alert("Error");
+      });
   };
 
   return (
@@ -409,17 +421,13 @@ const Polls = (PollsData) => {
                         style={{ width: "100%", borderRadius: "50%" }}
                       />
                       <Typography variant="body2" align="center">
-                        {candidate.name}
-                        {selectedCandidate?.id === candidate?.id && ( // Conditionally render tick mark
-                          <TbSignRightFilled
-                            style={{
-                              position: "absolute",
-                              top: 10,
-                              right: 10,
-                              color: "#fff",
-                            }}
-                          />
-                        )}
+                        <span>
+                          {candidate.name.split(" ").slice(0, 2).join(" ")}
+                        </span>
+                        <br />
+                        <span>
+                          {candidate.name.split(" ").slice(2).join(" ")}
+                        </span>
                       </Typography>
                     </CardContent>
                   </Card>
@@ -612,8 +620,16 @@ const Polls = (PollsData) => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-          <Snackbar open={showCompleted} autoHideDuration={6000} onClose={handleCloseCompleted}>
-            <Alert onClose={handleCloseCompleted} severity="success" sx={{ width: '100%' }}>
+          <Snackbar
+            open={showCompleted}
+            autoHideDuration={6000}
+            onClose={handleCloseCompleted}
+          >
+            <Alert
+              onClose={handleCloseCompleted}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
               Your votes were successfully submitted
             </Alert>
           </Snackbar>
