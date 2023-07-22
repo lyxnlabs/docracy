@@ -22,7 +22,7 @@ export default function ElectionInfo() {
 
     if (token) {
       // Verify the token on subsequent logins
-      fetch("https://kisargo.ml/api/verify-token", {
+      fetch("https://lyxnlabsapi.online/api/verify-token", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +36,7 @@ export default function ElectionInfo() {
           } else {
             console.log("Token is valid");
             // Fetch protected data
-            fetch("https://kisargo.ml/api/user-data", {
+            fetch("https://lyxnlabsapi.online/api/user-data", {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -69,7 +69,7 @@ export default function ElectionInfo() {
 
     if (token) {
       // Verify the token on subsequent logins
-      fetch("https://kisargo.ml/api/getElectionStatus", {
+      fetch("https://lyxnlabsapi.online/api/getElectionStatus", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -89,7 +89,7 @@ export default function ElectionInfo() {
 
     if (token) {
       // Verify the token on subsequent logins
-      fetch("https://kisargo.ml/api/checkIfUserVoted", {
+      fetch("https://lyxnlabsapi.online/api/checkIfUserVoted", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

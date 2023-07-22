@@ -45,7 +45,7 @@ const Home = () => {
     
     if (token) {
       // Verify the token on subsequent logins
-      fetch("https://kisargo.ml/api/verify-token", {
+      fetch("https://lyxnlabsapi.online/api/verify-token", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,7 +59,7 @@ const Home = () => {
           } else {
             console.log("Token is valid");
             // Fetch protected data
-            fetch("https://kisargo.ml/api/user-data", {
+            fetch("https://lyxnlabsapi.online/api/user-data", {
               headers: {
                 Authorization: `Bearer ${token}`,
               },

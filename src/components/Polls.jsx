@@ -92,7 +92,7 @@ const Polls = (PollsData) => {
     // Retrieve the token from local storage or state
     const token = localStorage.getItem("token");
 
-    fetch("https://kisargo.ml/api/getCandidates", {
+    fetch("https://lyxnlabsapi.online/api/getCandidates", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -182,7 +182,7 @@ const Polls = (PollsData) => {
 
     if (token) {
       // Verify the token on subsequent logins
-      fetch("https://kisargo.ml/api/checkIfUserVoted", {
+      fetch("https://lyxnlabsapi.online/api/checkIfUserVoted", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -264,7 +264,7 @@ const Polls = (PollsData) => {
     });
     axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     axiosInstance
-      .post("https://kisargo.ml/api/submitVotes", JSON.stringify(casts))
+      .post("https://lyxnlabsapi.online/api/submitVotes", JSON.stringify(casts))
       .then((response) => {
         if (response.data.success) {
           setSubmitted(false);

@@ -53,7 +53,7 @@ const OTPForm = (props) => {
     // Retrieve the token from local storage or state
     const token = localStorage.getItem("token");
 
-    const response = await fetch("https://kisargo.ml/api/verifyOTP", {
+    const response = await fetch("https://lyxnlabsapi.online/api/verifyOTP", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const OTPForm = (props) => {
       setOpenOTPSuccess(true);
       setOpenOTPResentAlert(false);
       setOpenBackdrop(true);
-      const response = await fetch("https://kisargo.ml/api/deleteOTP", {
+      const response = await fetch("https://lyxnlabsapi.online/api/deleteOTP", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +98,7 @@ const OTPForm = (props) => {
 
   const handleResendClick = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch("https://kisargo.ml/api/deleteOTP", {
+    const response = await fetch("https://lyxnlabsapi.online/api/deleteOTP", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -109,8 +109,8 @@ const OTPForm = (props) => {
       setOpenBackdrop(true);
       let URL =
         props.identifier_type === "email"
-          ? "https://kisargo.ml/api/sendEmailOTP"
-          : "https://kisargo.ml/api/sendPhoneOTP";
+          ? "https://lyxnlabsapi.online/api/sendEmailOTP"
+          : "https://lyxnlabsapi.online/api/sendPhoneOTP";
       const response_otp = await fetch(URL, {
         method: "POST",
         headers: {

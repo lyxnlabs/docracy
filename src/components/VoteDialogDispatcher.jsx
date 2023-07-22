@@ -17,7 +17,7 @@ export default function VoteDialogDispatcher(props) {
 
     if (token) {
       // Verify the token on subsequent logins
-      fetch("https://kisargo.ml/api/checkIfUserVoted", {
+      fetch("https://lyxnlabsapi.online/api/checkIfUserVoted", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

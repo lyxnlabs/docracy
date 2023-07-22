@@ -19,7 +19,7 @@ const SignInPage = () => {
 
     if (token) {
       // Verify the token on subsequent logins
-      fetch("https://kisargo.ml/api/verify-token", {
+      fetch("https://lyxnlabsapi.online/api/verify-token", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -79,7 +79,7 @@ const SignInPage = () => {
     setIdentifierError(false);
     setOpenBackdrop(true);
     // Send login request to the server
-    const response = await fetch("https://kisargo.ml/api/checkIfUserExists", {
+    const response = await fetch("https://lyxnlabsapi.online/api/checkIfUserExists", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -97,8 +97,8 @@ const SignInPage = () => {
       setIdentifierType(identifier_type);
       let URL =
         identifier_type === "email"
-          ? "https://kisargo.ml/api/sendEmailOTP"
-          : "https://kisargo.ml/api/sendPhoneOTP";
+          ? "https://lyxnlabsapi.online/api/sendEmailOTP"
+          : "https://lyxnlabsapi.online/api/sendPhoneOTP";
       const response_otp = await fetch(URL, {
         method: "POST",
         headers: {
