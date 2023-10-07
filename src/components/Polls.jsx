@@ -20,6 +20,7 @@ import {
   LinearProgress,
   Snackbar,
 } from "@mui/material";
+import avatar from  "../assets/img/f_avatars/avatar.png";
 import avatar1 from "../assets/img/f_avatars/f_avatar1.jpeg";
 import avatar2 from "../assets/img/f_avatars/f_avatar2.jpeg";
 import avatar3 from "../assets/img/f_avatars/f_avatar3.jpeg";
@@ -45,9 +46,14 @@ import Swal from "sweetalert2";
 import { TbSignRightFilled } from "react-icons/tb";
 import axios from "axios";
 const posts = [
-  { id: 1, name: "Honorary Joint Treasurer", limit: 1 },
-  { id: 2, name: "Executive Council Member - Clinician ", limit: 4 },
-  { id: 3, name: "Executive Council Member - Embryologist", limit: 2 },
+  { id: 1, name: "Vice Chairperson", limit: 1 },
+  { id: 2, name: "Hon Secretary", limit: 1 },
+  { id: 3, name: "Hon Treasurer", limit: 1 },
+  { id: 4, name: "Hon Joint Secretary", limit: 1 },
+  { id: 5, name: "Hon Joint Treasurer", limit: 1 },
+  { id: 6, name: "Executive Council Member - Clinician ", limit: 4 },
+  { id: 7, name: "Executive Council Member - Embryologist", limit: 2 },
+
 ];
 
 const imagesList = [
@@ -103,7 +109,7 @@ const Polls = (PollsData) => {
         const updatedCandidates = data.map((item, i) => ({
           id: item.candidate_id,
           name: item.first_name + " " + item.last_name,
-          image: imagesList[i],
+          image: avatar,
           postId: item.post_id,
         }));
         setCandidates([...updatedCandidates]);
@@ -154,8 +160,15 @@ const Polls = (PollsData) => {
     } else {
       let postLimit = 1;
       if (post_id === 1) postLimit = 1;
-      if (post_id === 2) postLimit = 4;
-      if (post_id === 3) postLimit = 2;
+      else if (post_id === 2) postLimit = 1;
+      else if (post_id === 3) postLimit = 1;
+      else if (post_id === 4) postLimit = 1;
+      else if (post_id === 5) postLimit = 1;
+      else if (post_id === 6) postLimit = 4;
+      else if (post_id === 7) postLimit = 2;
+      else  postLimit = 1;
+      
+      
 
       if (selectedCandidatesForPost.length < postLimit) {
         setCasts((prevCasts) => [...prevCasts, { post_id, candidate_id }]);
@@ -260,7 +273,7 @@ const Polls = (PollsData) => {
     setSubmitted(true);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
-      baseURL: "https://api.example.com",
+      baseURL: "https://lyxnlabsapi.online",
     });
     axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     axiosInstance
@@ -304,6 +317,7 @@ const Polls = (PollsData) => {
           {casts.filter((item) => item.post_id === posts[currentPostIndex].id)
             .length === posts[currentPostIndex].limit ? (
             <>
+             
               <LinearProgress
                 sx={{
                   ml: 2,
