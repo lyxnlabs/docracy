@@ -50,7 +50,6 @@ const posts = [
   { id: 2, name: "Hon Secretary", limit: 1 },
   { id: 3, name: "Hon Treasurer", limit: 1 },
   { id: 4, name: "Hon Joint Secretary", limit: 1 },
-  { id: 5, name: "Hon Joint Treasurer", limit: 1 },
   { id: 6, name: "Executive Council Member - Clinician ", limit: 4 },
   { id: 7, name: "Executive Council Member - Embryologist", limit: 2 },
 
@@ -163,7 +162,6 @@ const Polls = (PollsData) => {
       else if (post_id === 2) postLimit = 1;
       else if (post_id === 3) postLimit = 1;
       else if (post_id === 4) postLimit = 1;
-      else if (post_id === 5) postLimit = 1;
       else if (post_id === 6) postLimit = 4;
       else if (post_id === 7) postLimit = 2;
       else  postLimit = 1;
