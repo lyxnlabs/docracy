@@ -120,23 +120,48 @@ const Home = () => {
 
   const campaignData = [
     {
-      title: "Executive council Member - Embryologist",
-      description: "Positions avaiable : 2",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 6",
-    },
-    {
       title: "Executive council Member - Clinician",
       description: "Positions avaiable : 4",
       background: "#f2f2f2",
+      candidate: "Total candidates : 13",
+    },
+    {
+      title: "Executive council Member - Embryologist ",
+      description: "Positions avaiable : 2",
+      background: "#f2f2f2",
       candidate: "Total candidates : 4",
+    },
+    {
+      title: "Honorary Secretary",
+      description: "Positions avaiable : 1",
+      background: "#f2f2f2",
+      candidate: "Total candidates : 2",
+    },
+    {
+      title: "Vice Chairperson",
+      description: "Positions avaiable : 1",
+      background: "#f2f2f2",
+      candidate: "Total candidates : 1",
+    },
+    {
+      title: "Honrary Treasurer",
+      description: "Positions avaiable : 1",
+      background: "#f2f2f2",
+      candidate: "Total candidates : 1",
+    },
+    {
+      title: "Honorary Joint Treasurer",
+      description: "Positions avaiable : 1",
+      background: "#f2f2f2",
+      candidate: "Total candidates : 0",
     },
     {
       title: "Honorary Joint Secretary",
       description: "Positions avaiable : 1",
       background: "#f2f2f2",
-      candidate: "Total candidates : 2",
+      candidate: "Total candidates : 1",
     },
+    
   ];
 
   const boxData = [
