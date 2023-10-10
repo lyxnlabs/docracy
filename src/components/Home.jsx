@@ -120,35 +120,12 @@ const Home = () => {
 
   const campaignData = [
     {
-      title: "Vice Chairperson",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 1",
-    },
-    {
       title: "Honorary Secretary",
       description: "Positions avaiable : 1",
       background: "#f2f2f2",
       candidate: "Total candidates : 2",
     },
-    {
-      title: "Honrary Treasurer",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 1",
-    },
-    {
-      title: "Honorary Joint Secretary",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 1",
-    },
-    {
-      title: "Honorary Joint Treasurer",
-      description: "Positions avaiable : 1",
-      background: "#f2f2f2",
-      candidate: "Total candidates : 0",
-    },
+    
     {
       title: "Executive council Member - Clinician",
       description: "Positions avaiable : 4",

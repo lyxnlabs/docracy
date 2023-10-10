@@ -45,11 +45,17 @@ import Swal from "sweetalert2";
 
 import { TbSignRightFilled } from "react-icons/tb";
 import axios from "axios";
+// const posts = [
+//   { id: 1, name: "Vice Chairperson", limit: 1 },
+//   { id: 2, name: "Hon Secretary", limit: 2 },
+//   { id: 3, name: "Hon Treasurer", limit: 1 },
+//   { id: 4, name: "Hon Joint Secretary", limit: 1 },
+//   { id: 6, name: "Executive Council Member - Clinician ", limit: 4 },
+//   { id: 7, name: "Executive Council Member - Embryologist", limit: 2 },
+
+// ];
 const posts = [
-  { id: 1, name: "Vice Chairperson", limit: 1 },
   { id: 2, name: "Hon Secretary", limit: 1 },
-  { id: 3, name: "Hon Treasurer", limit: 1 },
-  { id: 4, name: "Hon Joint Secretary", limit: 1 },
   { id: 6, name: "Executive Council Member - Clinician ", limit: 4 },
   { id: 7, name: "Executive Council Member - Embryologist", limit: 2 },
 
