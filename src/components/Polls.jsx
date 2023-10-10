@@ -286,6 +286,13 @@ const Polls = (PollsData) => {
         } else alert("Error");
       });
   };
+  const sortedCandidates = [...filteredCandidates].sort((a, b) => {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
 
   return (
     <>
@@ -389,7 +396,10 @@ const Polls = (PollsData) => {
 
           <CardContent>
             <Grid container spacing={2}>
-              {filteredCandidates.map((candidate) => (
+              
+            
+              
+              {sortedCandidates.map((candidate) => (
                 <Grid item xs={12} sm={6} md={4} key={candidate.id}>
                   <Card
                     onClick={() =>
