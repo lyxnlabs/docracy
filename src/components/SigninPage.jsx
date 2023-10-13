@@ -12,37 +12,37 @@ import { Link } from "react-router-dom";
 import kisarLogo from "../assets/img/logo192.png";
 const SignInPage = () => {
   const [openOTPForm, setOpenOTPForm] = useState(false);
-  useEffect(() => {
-    setOpenBackdrop(true);
-    // Retrieve the token from local storage or state
-    const token = localStorage.getItem("token");
+  // useEffect(() => {
+  //   setOpenBackdrop(true);
+  //   // Retrieve the token from local storage or state
+  //   const token = localStorage.getItem("token");
 
-    if (token) {
-      // Verify the token on subsequent logins
-      fetch("https://lyxnlabsapi.online/api/verify-token", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          console.log(response);
-          if (response.ok) {
-          window.location.href="/home";
-          } else {
-            console.log("Token is invalid");
-            // Token is invalid or expired
-            localStorage.removeItem("token");
-            setOpenBackdrop(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Token verification failed:", error);
-        });
-    }
-    else {
-      setOpenBackdrop(false);
-    }
-  }, []);
+  //   if (token) {
+  //     // Verify the token on subsequent logins
+  //     fetch("https://lyxnlabsapi.online/api/verify-token", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //       .then((response) => {
+  //         console.log(response);
+  //         if (response.ok) {
+  //         window.location.href="/home";
+  //         } else {
+  //           console.log("Token is invalid");
+  //           // Token is invalid or expired
+  //           localStorage.removeItem("token");
+  //           setOpenBackdrop(false);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error("Token verification failed:", error);
+  //       });
+  //   }
+  //   else {
+  //     setOpenBackdrop(false);
+  //   }
+  // }, []);
 
   const [formData, setFormData] = useState({
     identifier: "",
@@ -63,7 +63,7 @@ const SignInPage = () => {
 
   const handleChange = (e) => {
     setFormData({ identifier: e.target.value });
-    if (!isValidIdentifier(e.target.value)) {
+    if (!isValidIdentifier(e.target.value.replace(/\s/g,''))) {
       setIdentifierError(true);
     } else {
       setIdentifierError(false);
@@ -72,7 +72,8 @@ const SignInPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isValidIdentifier(formData.identifier)) {
+    const form_identifier = formData.identifier.replace(/\s/g,'')
+    if (!isValidIdentifier(form_identifier)) {
       setIdentifierError(true);
       return;
     }
@@ -85,7 +86,7 @@ const SignInPage = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        identifier: formData.identifier,
+        identifier: form_identifier,
       }),
     });
     console.log(response);
